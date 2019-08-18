@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'FormCard.dart';
+import 'FormLogin.dart';
 import 'main.dart';
+import 'package:flutter/services.dart';
 
 
-class MyHomePage extends StatelessWidget{
+
+
+class Login extends StatelessWidget{
   @override 
   Widget build(BuildContext context){
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance = ScreenUtil(width: 500, height: 1200, allowFontScaling: true);
+
+     SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+
     return new Scaffold(
       
       backgroundColor: Colors.amber[numColor] ,
@@ -42,7 +51,7 @@ class MyHomePage extends StatelessWidget{
                        crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         SizedBox(height: ScreenUtil.getInstance().setHeight(50),),
-                        FormCard(),
+                        FormLogin(),
                         SizedBox(height: ScreenUtil.getInstance().setHeight(40),),
                         InkWell(
                           child: Container(
@@ -77,8 +86,6 @@ class MyHomePage extends StatelessWidget{
                             ),
                           ),
                         )
-                       
-
                       ],
                     ),
                   )    
@@ -87,8 +94,7 @@ class MyHomePage extends StatelessWidget{
           ),
         )
       ),
-      
-
     );
   }
 }
+
