@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'main.dart';
 
-class FormCard extends StatelessWidget {
+class FormLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    
+    double height = MediaQuery.of(context).size.height;
         return new Container(
          
           width: double.infinity,
-          height: ScreenUtil.getInstance().setHeight(500),
+                
           
           decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(9.0),
+              borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
                 BoxShadow(
                     color: Colors.black12,
@@ -79,13 +79,21 @@ class FormCard extends StatelessWidget {
 
                     },
                 ),
-                Text(
-                  "Forgot Password?",
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontFamily: "Poppins-Medium",
-                      fontSize: ScreenUtil.getInstance().setSp(20)),
-                )
+                FlatButton( 
+                      
+                    
+                    child: Text("Forgot Password?",
+                      style: TextStyle( 
+                        color: Colors.blue,
+                        fontFamily: "Poppins-Medium",
+                        
+                      ),  
+                    ),
+                    onPressed:(){
+                      Navigator.of(context).pushNamed("/"+ forgetpw);
+                    },
+                ),
+               
               ],
             )
           ],

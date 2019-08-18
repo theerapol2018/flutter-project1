@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'main.dart';
 
-class FormCard2 extends StatelessWidget {
+
+class FormSignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     

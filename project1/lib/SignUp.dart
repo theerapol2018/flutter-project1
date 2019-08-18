@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'FormCard2.dart';
+import 'FormSignUp.dart';
 import 'main.dart';
+import 'package:flutter/services.dart';
+
 
 class SignUp extends StatelessWidget {
   static const String routeName = "/signup";
@@ -9,6 +11,17 @@ class SignUp extends StatelessWidget {
   Widget build(BuildContext context){
      ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
      ScreenUtil.instance = ScreenUtil(width: 500, height: 800, allowFontScaling: true);
+
+    
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeRight,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+     
+    
+
     return Scaffold( 
 
        appBar: AppBar(
@@ -25,7 +38,7 @@ class SignUp extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      FormCard2(),
+                      FormSignUp(),
                       SizedBox(height: ScreenUtil.getInstance().setHeight(25),),
                       InkWell(
                         child: Container(
@@ -62,12 +75,8 @@ class SignUp extends StatelessWidget {
                       )
                     ],
                   ),                 
-                )
-
-                
-              
-              
-              
+                )         
+        
               ),
             ),
           ),

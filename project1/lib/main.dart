@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:project1/ForgotPW.dart';
 import 'package:project1/SignUp.dart';
-import 'MyHomePage.dart';
+import 'Login.dart';
 
 void main() => runApp(MyApp());
 String signup = "signup";
+String forgetpw = "forgetpw";
 int numColor = 500;
+
 class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     
     return MaterialApp(
-      home: MyHomePage(),
+      home: Login(),
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
       // Set named routes
       SignUp.routeName: (BuildContext context) => SignUp(),
+      ForgetPW.routeName: (BuildContext context) => ForgetPW(),
       },
     );
   }
