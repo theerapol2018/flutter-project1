@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'FormSignUp.dart';
 import 'main.dart';
-import 'package:flutter/services.dart';
+
 
 
 class SignUp extends StatelessWidget {
@@ -13,12 +13,12 @@ class SignUp extends StatelessWidget {
      ScreenUtil.instance = ScreenUtil(width: 500, height: 800, allowFontScaling: true);
 
     
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.landscapeRight,
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
+      // SystemChrome.setPreferredOrientations([
+      //   DeviceOrientation.landscapeRight,
+      //   DeviceOrientation.landscapeLeft,
+      //   DeviceOrientation.portraitUp,
+      //   DeviceOrientation.portraitDown,
+      // ]);
      
     
 
@@ -60,7 +60,7 @@ class SignUp extends StatelessWidget {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () { Navigator.of(context).pushNamed("/" + homeclass); },
                               child: Center(
                                 child: Text("SIGN UP",
                                     style: TextStyle(

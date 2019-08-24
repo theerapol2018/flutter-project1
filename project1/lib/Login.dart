@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 
 
 class Login extends StatelessWidget{
+  static const String routeName = "/login";
   @override 
   Widget build(BuildContext context){
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
@@ -73,14 +74,15 @@ class Login extends StatelessWidget{
                             child: Material(
                               color: Colors.transparent,
                               child: InkWell(
-                                onTap: () {},
+                                onTap: () { Navigator.of(context).pushNamed("/" + homeclass); },
                                 child: Center(
                                   child: Text("SIGNIN",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: "Poppins-Bold",
-                                          fontSize: 18,
-                                          letterSpacing: 1.0)),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: "Poppins-Bold",
+                                              fontSize: 18,
+                                              letterSpacing: 1.0)
+                                    ),
                                 ),
                               ),
                             ),

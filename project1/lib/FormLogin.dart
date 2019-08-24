@@ -43,8 +43,16 @@ class FormLogin extends StatelessWidget {
                         fontSize: ScreenUtil.getInstance().setSp(26))),
                 TextField(
                   decoration: InputDecoration(
+                    border: OutlineInputBorder(borderRadius: const BorderRadius.all(Radius.circular(20.0))
+                                                        , borderSide: BorderSide(color: Colors.amber,),
+                            ),
+                    focusedBorder:OutlineInputBorder(
+                                            borderSide: const BorderSide(color: Colors.teal, width: 2.0),
+                                            borderRadius: BorderRadius.circular(20.0),
+                              ),
                       hintText: "username",
                       hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
+                      
                 ),
                 SizedBox(
                   height: ScreenUtil.getInstance().setHeight(30),
@@ -56,6 +64,13 @@ class FormLogin extends StatelessWidget {
                 TextField(
                   obscureText: true,
                   decoration: InputDecoration(
+                    border: OutlineInputBorder(borderRadius: const BorderRadius.all(Radius.circular(20.0))
+                                                        , borderSide: BorderSide(color: Colors.amber,),
+                            ),
+                    focusedBorder:OutlineInputBorder(
+                                            borderSide: const BorderSide(color: Colors.teal, width: 2.0),
+                                            borderRadius: BorderRadius.circular(20.0),
+                              ),
                       hintText: "Password",
                       hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
                 ),
