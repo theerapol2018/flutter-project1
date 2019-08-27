@@ -36,13 +36,13 @@ class SignUp extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 0.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       FormSignUp(),
                       SizedBox(height: ScreenUtil.getInstance().setHeight(25),),
                       InkWell(
                         child: Container(
-                          margin: const EdgeInsets.fromLTRB(80.0, 0.0, .0, 0.0),
+                          //margin: const EdgeInsets.fromLTRB(80.0, 0.0, .0, 0.0),
                           width: ScreenUtil.getInstance().setWidth(200),
                           height: ScreenUtil.getInstance().setHeight(80),
                           decoration: BoxDecoration(

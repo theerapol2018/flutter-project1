@@ -11,9 +11,6 @@ class HomeClass extends StatelessWidget{
   static const String routeName = "/homeclass";
   final ClassListView classListView =  ClassListView();
 
-  
-
-  
   @override 
   Widget build(BuildContext context){ 
 
@@ -27,10 +24,11 @@ class HomeClass extends StatelessWidget{
                   ),
         backgroundColor: Colors.amber[numColor2],
         iconTheme: new IconThemeData(color: Colors.grey),
-       actions: <Widget>[
+        actions: <Widget>[
         IconButton(icon: Icon(Icons.input), 
                     onPressed: () {
                       showDialog(
+                        
                         context: context,
                         builder: (_) => new AlertDialog(
                             title: new Text("Enter Code "),
@@ -43,7 +41,7 @@ class HomeClass extends StatelessWidget{
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(borderRadius: const BorderRadius.all(Radius.circular(20.0))
                                                                                   , borderSide: BorderSide(color: Colors.amber,),
-                                                      ),
+                                              ),
                                               focusedBorder:OutlineInputBorder(
                                                                       borderSide: const BorderSide(color: Colors.teal, width: 2.0),
                                                                       borderRadius: BorderRadius.circular(20.0),
@@ -73,26 +71,21 @@ class HomeClass extends StatelessWidget{
                                             style: TextStyle(fontSize: 20,color: Colors.white),    
                                           ),
                                           )
-                                    ),
-
+                                      ),
+                                      SizedBox(height: ScreenUtil.getInstance().setHeight(15),),
+                                     // Text("OR"),
                                   ],
-
                                 ),
-                            ),
-                           
-                                          
-                      )
-    );
-                    }
-        ),
-        
-      ],
-        
+                              ),                   
+                            )
+                          );
+                        }
+          ),       
+        ],       
       ),
+      //Drawer
       drawer: Drawer(  
-        
         child: Container(
-     
           color: Colors.amber[numColor1],
           child: ListView(
                     // Important: Remove any padding from the ListView.
@@ -148,7 +141,7 @@ class HomeClass extends StatelessWidget{
 
 
       // Grid Layout
-      body: classListView.build(),
+      body: classListView.build(context),
       backgroundColor: Colors.amber[numColor1], 
      
     );
