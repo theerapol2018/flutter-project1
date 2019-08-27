@@ -1,44 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:project1/main.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'main.dart';
 
 class ClassListView {
 
-  
-  Card getStructuredGridCell(name,image){
+  Card getStructuredGridCell(name,image,BuildContext context){
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
+    
     return Card( 
-      elevation: 1.5,
+      elevation: 2.0,
       child: Column(  
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.max,
         verticalDirection: VerticalDirection.down,
         children: <Widget>[ 
-          // Image(image: AssetImage('data_repo/img/' + image)),
-          //   Center(
-          //     child: Text(name),
-          //   )
-          // Text(name),
-          ButtonTheme(
-            minWidth: 200.0,
-            height: 143.0,
-            child: FlatButton( 
-                child: Text(name,
-                  style: TextStyle( 
-                    color: Colors.greenAccent,
-                    fontFamily: "Poppins-Medium",
-                    fontSize: 15,
-                    letterSpacing: 1.0
-                    
-                  ),  
-                ),
-                onPressed:(){   },
-            ),
-          ),
-        ],
+          
+        InkWell(
+           
+            onTap: () {
+              print("tapped");
+              Navigator.of(context).pushNamed("/" + homeclass);
+            },
+            child: SingleChildScrollView(
+              child: Column(  
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[ 
+                  Padding( 
+                    padding: EdgeInsets.all(0.0),
+                    child: Container( 
+                      color: Colors.amber,
+                      width: double.maxFinite,
+                      height: 166.0,
+
+                      child: Column( 
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container( 
+                              child: Column( 
+                                children: <Widget>[ 
+                                  Text(name),
+                                  FlutterLogo(),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+        ),
+      ],
       ),
     );
   }
 
- GridView build() {
+ GridView build(BuildContext context) {
     return GridView.count(
       primary: true,
       padding: const EdgeInsets.all(2.0),
@@ -47,8 +68,9 @@ class ClassListView {
       mainAxisSpacing: 1.0,
       crossAxisSpacing: 1.0,
       children: <Widget>[
-        getStructuredGridCell("Computer Engineering", " "),
-        getStructuredGridCell("OS", "social/twitter.png"),
+        getStructuredGridCell("CPE", "",context),
+        getStructuredGridCell("OS", "",context),
+        getStructuredGridCell("Software Engineering", "",context),
         // getStructuredGridCell("Instagram", "social/instagram.png"),
         // getStructuredGridCell("Linkedin", "social/linkedin.png"),
         // getStructuredGridCell("Google Plus", "social/google_plus.png"),
