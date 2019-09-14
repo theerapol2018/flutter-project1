@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project1/ForgotPW.dart';
-import 'package:project1/HomeClass.dart';
+//import 'package:project1/HomeClass.dart';
 import 'package:project1/SignUp.dart';
 import 'package:project1/newq.dart';
 import 'Login.dart';
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       // Set named routes
       SignUp.routeName: (BuildContext context) => SignUp(),
       ForgetPW.routeName: (BuildContext context) => ForgetPW(),
-      HomeClass.routeName:(BuildContext context) => HomeClass(),
+      // HomeClass.routeName:(BuildContext context) => HomeClass(),
       Login.routeName:(BuildContext context) => Login(),
       Newq.routeName:(BuildContext context) => Newq(),
       },
