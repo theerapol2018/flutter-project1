@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:project1/data/User.dart';
 import 'package:project1/main.dart';
 import 'ClassListView.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,9 +11,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class HomeClass extends StatelessWidget{  
   static const String routeName = "/homeclass";
   final ClassListView classListView =  ClassListView();
+  final User user ;
 
+  HomeClass({Key key, @required this.user, }) : super(key: key);
+ 
   @override 
   Widget build(BuildContext context){ 
+   
 
     return Scaffold( 
       appBar: AppBar(
@@ -102,7 +107,7 @@ class HomeClass extends StatelessWidget{
                       backgroundImage: NetworkImage(''),
                       minRadius: 90,
                       maxRadius: 180,
-                      child: Text("My Profile",
+                      child: Text(this.user.firstname,
                                  style: TextStyle( 
                                    color: Colors.white70
                                  ), 
@@ -141,7 +146,7 @@ class HomeClass extends StatelessWidget{
 
 
       // Grid Layout
-      body: classListView.build(context),
+      body: classListView.build(context,this.user),
       backgroundColor: Colors.amber[numColor1], 
      
     );

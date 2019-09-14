@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'FormLogin.dart';
+import 'package:crypto/crypto.dart';
+import 'package:project1/HomeClass.dart';
 import 'data/API.dart';
 import 'data/User.dart';
 import 'main.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
-var xText = " ";
 
 TextEditingController _usernameController = TextEditingController();
 TextEditingController _passwordController = TextEditingController();
@@ -19,14 +19,13 @@ class Login extends StatefulWidget{
 }
 
 class LoginState extends State<Login>{
-  
-  
+
   
   var users = new List<User>();
   List data;
 
   _getUsers() {
-    API.getUsers().then((response) {
+    API.getUsersformDB().then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         users = list.map((model) => User.fromJson(model)).toList();
@@ -34,55 +33,39 @@ class LoginState extends State<Login>{
       });
     });
   }
-  // initState() {
-  //   super.initState();
-  //   _getUsers();
-  // }
 
-  // dispose() {
-  //   super.dispose();
-  // }
 
   getData(){
     _getUsers();
     print("********************TEST**********************");
-    // print(users[1].username);
-    // print(users.length);
-    bool login1 = false;
-    bool login2 = false;
+    var bytes  = utf8.encode(_passwordController.text);
+    var digest = sha256.convert(bytes);
+    
+      
     for (var i = 0; i < users.length; i++) {
       if(_usernameController.text == users[i].username){
-        print("Good1 "  + i.toString() );
-        login1 = true;
-          // for (var j = 0; j < users.length; j++) {
-            if(_passwordController.text == users[i].password){
-              print("Good2 " + i.toString());
-              login2 = true;
-            }else{
-              print("Password wrong " + i.toString());
-              break;
-            }
-          //}
-      }else{
-        print("ผิด " + i.toString());
+        // print("Good1 "  + i.toString() );
+        if(digest.toString() == users[i].password){
+          print("Pass " + i.toString());
+          print(users[i].id);
+          print(users[i].firstname);
+          print(users[i].lastname);
+          print(users[i].idstudent);
+          print(users[i].branch);
+          print(users[i].email);
+          // Navigator.of(context).pushNamed("/" + homeclass);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomeClass( user: users[i],)),);
+          break;
+        }else{
+          print("Password wrong " + i.toString());
+          break;
+        }
       }
+      print(i);
     }
-
-    // for (var j = 0; j < users.length; j++) {
-    //   if(_passwordController.text == users[j].password){
-    //     print("Good2 " + j.toString());
-    //     login2 = true;
-
-    //   }else{
-    //     // print("NO2 " + j.toString());
-    //   }
-    // }
-    if(login1 == true && login2 == true){
-      Navigator.of(context).pushNamed("/" + homeclass);
-    }
-    
-
-    print("******************************************");
+    print("**********************************************");
   }
 
 
@@ -168,11 +151,6 @@ class LoginState extends State<Login>{
                             ),
                           ),
                         )
-                          // new RaisedButton(
-                          //   child: new Text("SIGNIN"),
-                          //   onPressed:( ){ getData(); },
-                            
-                          // ),
                       ],
                     ),
                   )    
@@ -187,19 +165,7 @@ class LoginState extends State<Login>{
 
 
 
-//----------------------------------------------------------------------------------------------------------------------
-// var xText = " ";
-
-// TextEditingController _usernameController = TextEditingController();
-//   var _passwordController = TextEditingController();
-
-
 class FormLogin extends StatelessWidget {
-  
-  initState() {
-    xText = _passwordController.text;
-    print(xText);
-  }
 
   @override
   
@@ -295,10 +261,6 @@ class FormLogin extends StatelessWidget {
                     splashColor: Colors.amber,
                     onPressed:(){
                       Navigator.of(context).pushNamed("/" + signup);
-                      // print(_passwordController.text);
-                      // initState();
-                      // print(xText);
-
                     },
                 ),
                 FlatButton(  

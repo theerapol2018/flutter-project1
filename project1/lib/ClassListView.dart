@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:project1/data/User.dart';
+
 import 'main.dart';
+// import 'main.dart';
 
 class ClassListView {
 
@@ -10,6 +13,9 @@ class ClassListView {
     
     return Card( 
       elevation: 2.0,
+      
+        
+      shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
       child: Column(  
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.max,
@@ -20,7 +26,7 @@ class ClassListView {
            
             onTap: () {
               print("tapped");
-              Navigator.of(context).pushNamed("/" + homeclass);
+              Navigator.of(context).pushNamed("/" + nnn);
             },
             child: SingleChildScrollView(
               child: Column(  
@@ -28,10 +34,12 @@ class ClassListView {
                 children: <Widget>[ 
                   Padding( 
                     padding: EdgeInsets.all(0.0),
+                    
                     child: Container( 
                       color: Colors.amber,
                       width: double.maxFinite,
                       height: 166.0,
+                      
 
                       child: Column( 
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,7 +68,10 @@ class ClassListView {
     );
   }
 
- GridView build(BuildContext context) {
+ GridView build(BuildContext context, User user, ) {
+   
+   
+
     return GridView.count(
       primary: true,
       padding: const EdgeInsets.all(2.0),
@@ -68,10 +79,11 @@ class ClassListView {
       childAspectRatio: 0.85,
       mainAxisSpacing: 1.0,
       crossAxisSpacing: 1.0,
+      
       children: <Widget>[
-        getStructuredGridCell("CPE", "",context),
-        getStructuredGridCell("OS", "",context),
-        getStructuredGridCell("Software Engineering", "",context),
+        getStructuredGridCell(user.email, "",context),
+        getStructuredGridCell(user.idstudent, "",context),
+        getStructuredGridCell(user.branch, "",context),
         // getStructuredGridCell("Instagram", "social/instagram.png"),
         // getStructuredGridCell("Linkedin", "social/linkedin.png"),
         // getStructuredGridCell("Google Plus", "social/google_plus.png"),
