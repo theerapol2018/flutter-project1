@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:project1/data/User.dart';
 import 'package:project1/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'ClassListView.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,12 +13,13 @@ class HomeClass extends StatelessWidget{
   static const String routeName = "/homeclass";
   final ClassListView classListView =  ClassListView();
   final User user ;
-
   HomeClass({Key key, @required this.user, }) : super(key: key);
  
+
+
   @override 
   Widget build(BuildContext context){ 
-   
+  
 
     return Scaffold( 
       appBar: AppBar(
@@ -93,7 +95,6 @@ class HomeClass extends StatelessWidget{
         child: Container(
           color: Colors.amber[numColor1],
           child: ListView(
-                    // Important: Remove any padding from the ListView.
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
@@ -132,7 +133,11 @@ class HomeClass extends StatelessWidget{
               ListTile(
                 leading: Icon(Icons.exit_to_app),
                 title: Text('LogOut'),
-                onTap: () {  Navigator.of(context).pushNamed("/" + login); },
+                onTap: () async {  
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.remove('Index');
+                  print(prefs.getInt('Index'));
+                  Navigator.of(context).pushNamed("/" + login); },
               ),
               ListTile( 
                 leading: Icon(Icons.close),

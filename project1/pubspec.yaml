@@ -28,6 +28,9 @@ dependencies:
   dio: 2.0.22
   convert: ^2.1.1
   crypto: ^2.1.2
+  splashscreen: ^1.2.0
+  shared_preferences: ^0.5.3+4
+  async: ^2.3.0
 
 dev_dependencies:
   flutter_test:

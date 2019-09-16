@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:crypto/crypto.dart';
 import 'package:project1/HomeClass.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'data/API.dart';
 import 'data/User.dart';
 import 'main.dart';
@@ -35,24 +36,27 @@ class LoginState extends State<Login>{
   }
 
 
-  getData(){
+  getData() async {
     _getUsers();
     print("********************TEST**********************");
     var bytes  = utf8.encode(_passwordController.text);
     var digest = sha256.convert(bytes);
     
       
-    for (var i = 0; i < users.length; i++) {
+    for (int i = 0; i < users.length; i++) {
       if(_usernameController.text == users[i].username){
         // print("Good1 "  + i.toString() );
         if(digest.toString() == users[i].password){
           print("Pass " + i.toString());
-          print(users[i].id);
-          print(users[i].firstname);
-          print(users[i].lastname);
-          print(users[i].idstudent);
-          print(users[i].branch);
-          print(users[i].email);
+          
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString("User",_usernameController.text);
+          prefs.setInt("Index", i);
+          xIndex = prefs.getInt("Index");
+          print(prefs.getString('User'));
+          print(prefs.getInt("Index"));
+          
+
           // Navigator.of(context).pushNamed("/" + homeclass);
           Navigator.push(
             context,
@@ -69,13 +73,13 @@ class LoginState extends State<Login>{
   }
 
 
-
+  
 
   @override 
   Widget build(BuildContext context){
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance = ScreenUtil(width: 500, height: 1200, allowFontScaling: true);
-
+    print("=====> " + xIndex.toString());
      SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,

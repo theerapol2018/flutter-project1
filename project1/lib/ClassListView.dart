@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:project1/data/User.dart';
 
 import 'main.dart';
-// import 'main.dart';
 
 class ClassListView {
 
@@ -26,6 +25,7 @@ class ClassListView {
             onTap: () {
               print("tapped");
               Navigator.of(context).pushNamed("/" + nnn);
+              
             },
             child: SingleChildScrollView(
               child: Column(  
