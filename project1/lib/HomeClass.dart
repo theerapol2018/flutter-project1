@@ -19,7 +19,7 @@ class HomeClass extends StatelessWidget{
 
   @override 
   Widget build(BuildContext context){ 
-  
+  print("HomeClass xIndex==> " + xIndex.toString());
 
     return Scaffold( 
       appBar: AppBar(

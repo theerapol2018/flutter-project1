@@ -30,7 +30,8 @@ dependencies:
   crypto: ^2.1.2
   splashscreen: ^1.2.0
   shared_preferences: ^0.5.3+4
-  async: ^2.3.0
+  flutter_barcode_scanner: ^0.1.5+2
+
 
 dev_dependencies:
   flutter_test:

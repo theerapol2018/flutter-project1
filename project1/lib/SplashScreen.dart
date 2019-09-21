@@ -1,57 +1,83 @@
 
+import 'dart:async';
 import 'dart:convert';
-import 'package:project1/Login.dart';
+import 'package:project1/HomeClass.dart';
+import 'package:project1/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:splashscreen/splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'data/API.dart';
 import 'data/User.dart';
 
-
-
-class MySplashSreen extends StatelessWidget   {
+class SplashScreen extends StatefulWidget {
   @override
-  
-  Widget build(BuildContext context) {
-    var users = new List<User>();
-    API.getUsersformDB().then((response) {
+  _SplashScreenState createState() => new _SplashScreenState();
+}
 
-      Iterable list = json.decode(response.body);
-      users = list.map((model) => User.fromJson(model)).toList();
-      print(users[0].firstname);
+class _SplashScreenState extends State<SplashScreen>  {
+  int i;
+  var users = new List<User>();
+  startTime() async {
+    var _duration = new Duration(seconds: 5);
+    return new Timer(_duration, navigationPage);
+  }
 
-    });
-    // int numForHome = toto();
-
-    return  SplashScreen(
-      
-      seconds: 5,
-      //navigateAfterSeconds: new AfterSplash(),
-      // navigateAfterSeconds:  getIndex() == null ? Login(): HomeClass( i: 0),
-      navigateAfterSeconds:  getIndex() == null ? Login():Login(),
-      title:  Text('Welcome In SplashScreen',
-      style:  TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 20.0
-      ),),
-      loaderColor: Colors.red,
-    );
+  void navigationPage() {
+    if(xIndex == null){
+      Navigator.of(context).pushNamed("/" + login);
+    }else{
+      print(" I = " + i.toString());
+        Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass( user: users[i],)),);
+    }
   }
 
   getIndex() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-     
      final int intValue = prefs.getInt('Index')?? 0;
-     print(intValue);
-    return intValue;
-    
-  }
-  // toto() async {
-  //   int i = await getIndex();
-  //   print(i);
-  //   return i;
-  // }
+     xIndex = intValue;
+     i = intValue;
+     print("getIndex : == "+ intValue.toString());
 
+    API.getUsersformDB().then((response) {
+      // setState(() {
+      Iterable list = json.decode(response.body);
+      users = list.map((model) => User.fromJson(model)).toList();
+      print(users[i].firstname);
+      // });
+    });
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    getIndex();
+    startTime();
+  }
+  
+  
+  Widget build(BuildContext context) {
+ 
+    return  Scaffold(
+     body: new Center(
+        child:Column( 
+          children: <Widget>[ 
+            Padding( 
+              padding: EdgeInsets.all(50.0),
+              child: Column( 
+                children: <Widget>[ 
+                  Text("Welcome To SUT Attendance",
+                    style:  TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        )
+      ),
+    );
+  }
 
 
   
