@@ -50,17 +50,15 @@ class LoginState extends State<Login>{
           print("Pass " + i.toString());
           
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString("User",_usernameController.text);
+          // prefs.setString("User",_usernameController.text);
           prefs.setInt("Index", i);
           xIndex = prefs.getInt("Index");
-          print(prefs.getString('User'));
+          // print(prefs.getString('User'));
           print(prefs.getInt("Index"));
           
 
           // Navigator.of(context).pushNamed("/" + homeclass);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HomeClass( user: users[i],)),);
+          Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass( user: users[i],)),);
           break;
         }else{
           print("Password wrong " + i.toString());
@@ -79,7 +77,7 @@ class LoginState extends State<Login>{
   Widget build(BuildContext context){
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance = ScreenUtil(width: 500, height: 1200, allowFontScaling: true);
-    print("=====> " + xIndex.toString());
+    print("Login===> " + xIndex.toString());
      SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,

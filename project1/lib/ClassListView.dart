@@ -10,13 +10,12 @@ class ClassListView {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     
     return Card( 
-      elevation: 2.0,
-      
-        
+      elevation: 5.0,
+
       shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
       child: Column(  
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.max,
+        // mainAxisSize: MainAxisSize.max,
         verticalDirection: VerticalDirection.down,
         children: <Widget>[ 
           

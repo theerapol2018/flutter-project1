@@ -27,7 +27,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return MaterialApp(
-      home: MySplashSreen(),
+      
+      home: SplashScreen(),
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
       // Set named routes
@@ -37,6 +38,15 @@ class MyApp extends StatelessWidget {
       Login.routeName:(BuildContext context) => Login(),
       Newq.routeName:(BuildContext context) => Newq(),
       },
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blue,
+      //   primaryColor: Colors.white,
+      //   canvasColor: Colors.white,
+      //   appBarTheme: AppBarTheme(
+      //     elevation: 0,
+      //     color: Colors.white,
+      //   )
+      // ),
     );
   }
 }
