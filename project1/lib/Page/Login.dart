@@ -104,6 +104,8 @@ class LoginState extends State<Login>{
                             fontSize: 50,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
+                         
+ 
                           )
                       )
                     ),

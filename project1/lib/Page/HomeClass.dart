@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:project1/Page/UserInFor.dart';
 import 'package:project1/data/JoinClass.dart';
 import 'package:project1/data/User.dart';
 import 'package:project1/main.dart';
@@ -139,7 +140,9 @@ class HomeClass extends StatelessWidget{
                 title: Text('Student Information'),
                 
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => UserInFor(user: user,)));
+                  // Navigator.pop(context);
+
                 },
               ),
               ListTile(
