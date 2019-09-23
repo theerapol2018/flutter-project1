@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:project1/ForgotPW.dart';
-// import 'dart:async';
-import 'package:project1/SignUp.dart';
-import 'package:project1/newq.dart';
+import 'Page//ForgotPW.dart';
+import 'Page/SignUp.dart';
 
 
-import 'Login.dart';
-import 'SplashScreen.dart';
+import 'Page/Login.dart';
+import 'Page/Subject.dart';
+import 'Page/SplashScreen.dart';
 
-
+var url = ("https://jsonflutter.herokuapp.com/");
 String signup = "signup";
 String forgetpw = "forgetpw";
 String homeclass = "homeclass";
 String login = "login";
-String nnn = "nnn";
+String subject = "subject";
 int numColor = 500, numColor1 = 50, numColor2 = 100;
 int xIndex ;
 
@@ -34,9 +33,8 @@ class MyApp extends StatelessWidget {
       // Set named routes
       SignUp.routeName: (BuildContext context) => SignUp(),
       ForgetPW.routeName: (BuildContext context) => ForgetPW(),
-      // HomeClass.routeName:(BuildContext context) => HomeClass(),
       Login.routeName:(BuildContext context) => Login(),
-      Newq.routeName:(BuildContext context) => Newq(),
+      Subject.routeName:(BuildContext context) => Subject(),
       },
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
