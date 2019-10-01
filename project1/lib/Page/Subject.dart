@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-
-
+import '../main.dart';
+import 'camera.dart';
 
 class Subject extends StatefulWidget{
    static const String routeName = "/subject";
@@ -31,6 +30,8 @@ class _SubjectState extends State<Subject> {
               GestureDetector(
                   onTap: () {
                     print("Card 1");
+                    // Navigator.push(context,MaterialPageRoute(builder: (context) => SubjectInFor()));
+                    Navigator.of(context).pushNamed("/" + subjectInFor);
                   },
                   child: Card(
                     
@@ -48,7 +49,12 @@ class _SubjectState extends State<Subject> {
               GestureDetector(
                   onTap: () {
                     print("Card 2");
-                    _incrementCounter();
+                    Camera();
+                    // _incrementCounter();
+                    // if(_value == null){
+                    //   print("----------------Null--------------");
+                      
+                    // }
                   },
                   child: Card(
                     
