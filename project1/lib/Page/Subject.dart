@@ -49,7 +49,7 @@ class _SubjectState extends State<Subject> {
               GestureDetector(
                   onTap: () {
                     print("Card 2");
-                    Camera();
+                    // Camera();          /************** */
                     // _incrementCounter();
                     // if(_value == null){
                     //   print("----------------Null--------------");
