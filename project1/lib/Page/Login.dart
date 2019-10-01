@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:crypto/crypto.dart';
 import 'package:project1/data/API.dart';
 import 'package:project1/data/User.dart';
+import 'package:project1/data/UserLogin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
@@ -20,46 +21,55 @@ class Login extends StatefulWidget{
 }
 
 class LoginState extends State<Login>{
-
+  //final _formKey = GlobalKey<FormState>();
   
+  var userslogin = new List<UserLogin>();
   var users = new List<User>();
+  List usersdata;
   List data;
 
-  _getUsers() {
+
+  _getUsers() { /// สำหรับส่งข้อมูลไปหน้าถัดไป
     API.getUsersformDB().then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
-        users = list.map((model) => User.fromJson(model)).toList();
-        data = users;
+        usersdata = list.map((model) => User.fromJson(model)).toList();
+        data = usersdata;
+      });
+    });
+  }
+  _getUserLogin() {  //สำหรับใช้ Login
+    API.getUserLogin().then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body);
+        userslogin = list.map((model) => UserLogin.fromJson(model)).toList();
+        data = userslogin;
       });
     });
   }
 
 
   getData() async {
+    _getUserLogin();
     _getUsers();
-    
     print("********************TEST**********************");
     var bytes  = utf8.encode(_passwordController.text);
     var digest = sha256.convert(bytes);
-    
-      
-    for (int i = 0; i < users.length; i++) {
-      if(_usernameController.text == users[i].username){
+         
+    for (int i = 0; i < userslogin.length; i++) {
+      if(_usernameController.text == userslogin[i].username){
         // print("Good1 "  + i.toString() );
-        if(digest.toString() == users[i].password){
+        if(digest.toString() == userslogin[i].password){
           print("Pass " + i.toString());
           
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          // prefs.setString("User",_usernameController.text);
           prefs.setInt("Index", i);
           xIndex = prefs.getInt("Index");
-          // print(prefs.getString('User'));
           print(prefs.getInt("Index"));
           
 
           // Navigator.of(context).pushNamed("/" + homeclass);
-          Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass( user: users[i],)),);
+          Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass( user: usersdata[xIndex],)),);
           break;
         }else{
           print("Password wrong " + i.toString());
@@ -176,6 +186,8 @@ class FormLogin extends StatelessWidget {
   
   Widget build(BuildContext context) {
     //double height = MediaQuery.of(context).size.height;
+
+
         return new Container(
          
           width: double.infinity,
@@ -206,23 +218,32 @@ class FormLogin extends StatelessWidget {
                         letterSpacing: .6)),
                 SizedBox(height: ScreenUtil.getInstance().setHeight(30),),
                 //Username
+                
                 Text("Username",
                     style: TextStyle(
                         fontFamily: "Poppins-Medium",
                         fontSize: ScreenUtil.getInstance().setSp(26))),
-                TextField(
+                TextFormField(
+                  
+                  autofocus: true,
+                  textInputAction: TextInputAction.done,
+                  
+                  //  validator: (value) {
+                  //       if (value.isEmpty) {
+                  //         return 'Please enter Username';
+                  //       }
+                  //       return null;
+                  //     },
                   controller: _usernameController,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(borderRadius: const BorderRadius.all(Radius.circular(20.0))
-                                                        , borderSide: BorderSide(color: Colors.amber,),
-                            ),
+                    border: OutlineInputBorder(borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+                    borderSide: BorderSide(color: Colors.amber,),),
                     focusedBorder:OutlineInputBorder(
-                                            borderSide: const BorderSide(color: Colors.teal, width: 2.0),
-                                            borderRadius: BorderRadius.circular(20.0),
-                              ),
-                      hintText: "username",
-                      hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
-                      
+                       borderSide: const BorderSide(color: Colors.teal, width: 2.0),
+                       borderRadius: BorderRadius.circular(20.0),),
+                    hintText: "username",
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
+                     
                 ),
                 SizedBox(height: ScreenUtil.getInstance().setHeight(30),),
                 //Password
@@ -232,8 +253,9 @@ class FormLogin extends StatelessWidget {
                         fontSize: ScreenUtil.getInstance().setSp(26))),
                 TextField(
                   obscureText: true,
-                   controller: _passwordController,
-                   
+                
+                  controller: _passwordController,
+                  textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(borderRadius: const BorderRadius.all(Radius.circular(20.0))
                                                         , borderSide: BorderSide(color: Colors.amber,),

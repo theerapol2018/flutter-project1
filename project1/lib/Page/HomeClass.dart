@@ -1,3 +1,4 @@
+// import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:project1/Page/UserInFor.dart';
@@ -16,7 +17,8 @@ class HomeClass extends StatelessWidget{
   final ClassListView classListView =  ClassListView();
   final User user ;
   
-  static final joinClassURL = url+'joinclass';
+     static final joinClassURL = 'http://48a371b6.ap.ngrok.io/'+'Subject/join';
+    //  static final joinClassURL = url+'joinclass';
   HomeClass({Key key, @required this.user, }) : super(key: key);
  
 
@@ -65,12 +67,16 @@ class HomeClass extends StatelessWidget{
                                       SizedBox(height: ScreenUtil.getInstance().setHeight(30),),
                                       RaisedButton( 
                                         onPressed: () async { 
-                                          print(codeJoinClassControler.text);
-                                          print(user.idstudent);
-                                          JoinClass newjoinClass = new JoinClass(id: 0,codeJoinClass: codeJoinClassControler.text, idstudent: user.idstudent);
+                                          
+                                          JoinClass newjoinClass = new JoinClass(codeJoinClass: codeJoinClassControler.text, idstudent: user.idstudent);
                                           JoinClass joinClass = await joinClasss(joinClassURL,body:newjoinClass.toMap());
-                                          print(joinClass.codeJoinClass);
-                                          print(joinClass.idstudent);
+                                          if (joinClass != null){
+                                            print("--------------NULL-------------");
+                                          }
+                                          // print(joinClass);
+                                          // print(joinClass.idstudent);
+                                      
+                                          
                                         },
                                         shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
                                         padding: const EdgeInsets.all(0.0),
@@ -152,6 +158,7 @@ class HomeClass extends StatelessWidget{
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   prefs.remove('Index');
                   print(prefs.getInt('Index'));
+                  xIndex = null;
                   Navigator.of(context).pushNamed("/" + login); },
               ),
               ListTile( 

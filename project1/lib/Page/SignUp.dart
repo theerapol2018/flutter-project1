@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:crypto/crypto.dart';
 import 'package:project1/data/CreateUser.dart';
-
-
+import 'package:project1/data/CreateUserLogin.dart';
 import '../main.dart';
 
 
@@ -20,9 +19,18 @@ import '../main.dart';
 
 
 
-class SignUp extends StatelessWidget {
+class SignUp extends StatefulWidget {
   static const String routeName = "/signup";
    static final postUserURL = url+'studentuser';
+   static final postUserLoginURL = url+"userlogin"; 
+
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  // var createSubjects = new List<CreateSubjects>();
+
 
   @override 
   Widget build(BuildContext context){
@@ -73,13 +81,14 @@ class SignUp extends StatelessWidget {
                                 var digest = sha256.convert(bytes);
                                 CreateUser newCreateUser = new CreateUser( id: 0, firstname: firstNameControler.text, lastname: lastNameControler.text,
                                                           idstudent: idStudentControler.text, branch: branchControler.text, 
-                                                          email: emailControler.text, username: usernameControler.text, password: digest.toString());
-                                CreateUser p = await createUsers(postUserURL,
-                                    body: newCreateUser.toMap());
+                                                          email: emailControler.text, /*subjects : createSubjects*/);
+                                CreateUser p = await createUsers(SignUp.postUserURL,body: newCreateUser.toMap());
                                 print(p.firstname);
-                              
-                             
-                                // Navigator.of(context).pushNamed("/" + homeclass);
+
+                                CreateUserLogin newCreateLogin = new CreateUserLogin(id: 0, username: usernameControler.text, password: digest.toString());
+                                CreateUserLogin c = await createuserLogine(SignUp.postUserLoginURL,body: newCreateLogin.toMap());
+                                print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                                print(c.username + c.password);
 
                               },
                               child: Center(
@@ -145,6 +154,7 @@ class FormSignUp extends StatelessWidget {
                               fontFamily: "Poppins-Medium",
                               fontSize: ScreenUtil.getInstance().setSp(26))),
                       TextField(
+                        // textInputAction: TextInputAction.next,
                         controller: firstNameControler,
                         decoration: InputDecoration(
                             hintText: "Name",
@@ -202,6 +212,7 @@ class FormSignUp extends StatelessWidget {
                         decoration: InputDecoration(
                             hintText: "EX : B5907953@g.sut.ac.th",
                             hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
+                            keyboardType: TextInputType.emailAddress,
                       ),
                       SizedBox(
                         height: ScreenUtil.getInstance().setHeight(20),

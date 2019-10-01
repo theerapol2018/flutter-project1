@@ -8,5 +8,8 @@ class API {
     var urlUsername = (url + urlname);
     return http.get(urlUsername);
   }
+  static Future getUserLogin(){
+    return http.get(url+"userlogin");
+  }
 }
 

@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen>  {
 
   getIndex() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-     final int intValue = prefs.getInt('Index')?? 0;
+     final int intValue = prefs.getInt('Index');
      xIndex = intValue;
      i = intValue;
      print("getIndex : == "+ intValue.toString());
