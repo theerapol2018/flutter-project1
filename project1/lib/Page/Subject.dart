@@ -1,18 +1,28 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import '../main.dart';
-import 'camera.dart';
+import 'Camera.dart';
 
+
+ List<CameraDescription> cameras;
+  
 class Subject extends StatefulWidget{
    static const String routeName = "/subject";
+ 
+
+ 
 
   @override
   _SubjectState createState() => _SubjectState();
 }
 
 class _SubjectState extends State<Subject> {
+  
+
 @override
+
+
   Widget build(BuildContext context){
     return Scaffold( 
       appBar: AppBar( 
@@ -31,7 +41,8 @@ class _SubjectState extends State<Subject> {
                   onTap: () {
                     print("Card 1");
                     // Navigator.push(context,MaterialPageRoute(builder: (context) => SubjectInFor()));
-                    Navigator.of(context).pushNamed("/" + subjectInFor);
+                    // Navigator.of(context).pushNamed("/" + camera);
+                    
                   },
                   child: Card(
                     
@@ -49,8 +60,9 @@ class _SubjectState extends State<Subject> {
               GestureDetector(
                   onTap: () {
                     print("Card 2");
-                    Camera();
-                    // _incrementCounter();
+                    // Camera();
+                     _incrementCounter();
+                  
                     // if(_value == null){
                     //   print("----------------Null--------------");
                       
@@ -92,7 +104,19 @@ class _SubjectState extends State<Subject> {
     setState(() {
       _value=_counter;
     });
+    if(_value != "-1"){
+      openCamera();
+    }
 
-
+  }
+  
+ 
+  openCamera() async {
+    final cameras = await availableCameras();
+    final  firstCamera = cameras.first;
+    // if(_value == "-1"){
+      Navigator.push(context,MaterialPageRoute(builder: (context) => TakePictureScreen(camera: firstCamera)),);
+    // }
+    
   }
 }

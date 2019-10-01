@@ -1,4 +1,6 @@
+// import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+
 // import 'package:project1/Page/SubjectInFor.dart';
 import 'Page//ForgotPW.dart';
 import 'Page/SignUp.dart';
@@ -17,6 +19,7 @@ String homeclass = "homeclass";
 String login = "login";
 String subject = "subject";
 String subjectInFor = "subjectinfor";
+String camera = "camera";
 int numColor = 500, numColor1 = 50, numColor2 = 100;
 int xIndex ;
 
@@ -28,7 +31,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
+    // List<CameraDescription> cameras;
+
     return MaterialApp(
       
       home: SplashScreen(),
@@ -40,6 +44,7 @@ class MyApp extends StatelessWidget {
       Login.routeName:(BuildContext context) => Login(),
       Subject.routeName:(BuildContext context) => Subject(),
       SubjectInFor.routeName:(BuildContext context) => SubjectInFor(),
+      // Camera.routeName:(BuildContext context) => Camera(cameras),
       },
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,

@@ -225,7 +225,7 @@ class FormLogin extends StatelessWidget {
                         fontSize: ScreenUtil.getInstance().setSp(26))),
                 TextFormField(
                   
-                  autofocus: true,
+                  // autofocus: true,
                   textInputAction: TextInputAction.done,
                   
                   //  validator: (value) {

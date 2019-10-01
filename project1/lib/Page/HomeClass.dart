@@ -29,7 +29,7 @@ class HomeClass extends StatelessWidget{
 
     return Scaffold( 
       appBar: AppBar(
-        centerTitle: true,
+        // centerTitle: true,
         title: Text('HomeClass',
                     style: TextStyle(  
                       color: Colors.amber

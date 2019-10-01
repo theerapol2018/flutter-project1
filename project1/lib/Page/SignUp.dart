@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:crypto/crypto.dart';
 import 'package:project1/data/CreateUser.dart';
-import 'package:project1/data/CreateUserLogin.dart';
+// import 'package:project1/data/CreateUserLogin.dart';
 import '../main.dart';
 
 
   TextEditingController firstNameControler = new TextEditingController();
   TextEditingController lastNameControler = new TextEditingController();
   TextEditingController idStudentControler = new TextEditingController();
-  TextEditingController branchControler = new TextEditingController();
+  TextEditingController phoneControler = new TextEditingController();
   TextEditingController emailControler = new TextEditingController();
   TextEditingController usernameControler = new TextEditingController();
   TextEditingController passwordControler = new TextEditingController();
@@ -21,7 +21,8 @@ import '../main.dart';
 
 class SignUp extends StatefulWidget {
   static const String routeName = "/signup";
-   static final postUserURL = url+'studentuser';
+  //  static final postUserURL = url+'studentuser';
+  static final postUserURL = 'http://48a371b6.ap.ngrok.io/'+'Student/new';
    static final postUserLoginURL = url+"userlogin"; 
 
   @override
@@ -41,7 +42,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
 
        appBar: AppBar(
-        centerTitle: true ,
+        // centerTitle: true ,
         title: Text("Sign Up"),
         backgroundColor: Colors.amber[700],
       ),
@@ -79,16 +80,16 @@ class _SignUpState extends State<SignUp> {
                               onTap: () async { 
                                 var bytes  = utf8.encode(passwordControler.text);
                                 var digest = sha256.convert(bytes);
-                                CreateUser newCreateUser = new CreateUser( id: 0, firstname: firstNameControler.text, lastname: lastNameControler.text,
-                                                          idstudent: idStudentControler.text, branch: branchControler.text, 
+                                CreateUser newCreateUser = new CreateUser( /*id: 0,*/ firstname: firstNameControler.text, lastname: lastNameControler.text,
+                                                          idstudent: idStudentControler.text, phone: phoneControler.text, username: usernameControler.text, password: digest.toString(),
                                                           email: emailControler.text, /*subjects : createSubjects*/);
                                 CreateUser p = await createUsers(SignUp.postUserURL,body: newCreateUser.toMap());
-                                print(p.firstname);
+                              //  print(json.decode(p.firstname));
 
-                                CreateUserLogin newCreateLogin = new CreateUserLogin(id: 0, username: usernameControler.text, password: digest.toString());
-                                CreateUserLogin c = await createuserLogine(SignUp.postUserLoginURL,body: newCreateLogin.toMap());
-                                print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                                print(c.username + c.password);
+                                // CreateUserLogin newCreateLogin = new CreateUserLogin(id: 0, username: usernameControler.text, password: digest.toString());
+                                // CreateUserLogin c = await createuserLogine(SignUp.postUserLoginURL,body: newCreateLogin.toMap());
+                                // print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                                // print(c.username + c.password);
 
                               },
                               child: Center(
@@ -190,12 +191,12 @@ class FormSignUp extends StatelessWidget {
                       SizedBox(
                         height: ScreenUtil.getInstance().setHeight(20),
                       ),
-                      Text("Branch",
+                      Text("phone",
                           style: TextStyle(
                               fontFamily: "Poppins-Medium",
                               fontSize: ScreenUtil.getInstance().setSp(26))),
                       TextField(
-                        controller: branchControler,
+                        controller: phoneControler,
                         decoration: InputDecoration(
                             hintText: "สาขาวิชา : Computer Engeneering",
                             hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),

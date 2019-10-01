@@ -5,16 +5,16 @@ class User {
   String firstname;
   String lastname;
   String idstudent;
-  String branch;
+  String phone;
   String email;
   List<Subjects> subjects;
 
-  User({int id,String firstname, String lastname,String idstudent,String branch,String email, List<Subjects> subjects}) {
+  User({int id,String firstname, String lastname,String idstudent,String phone,String email, List<Subjects> subjects}) {
     this.id = id;
     this.firstname = firstname;
     this.lastname = lastname;
     this.idstudent = idstudent;
-    this.branch = branch;
+    this.phone = phone;
     this.email = email;
     this.subjects = subjects;
   }
@@ -28,7 +28,7 @@ class User {
       firstname: json['firstname'],
       lastname:json['lastname'],
       idstudent: json['idstudent'],
-      branch:json['branch'],
+      phone:json['phone'],
       email:json['email'],
       subjects: subjectsList
     );
@@ -41,7 +41,7 @@ class User {
       'firstname': firstname, 
       'lastname': lastname, 
       'idstudent': idstudent, 
-      'branch': branch, 
+      'phone': phone, 
       'email': email, 
     };
   }
