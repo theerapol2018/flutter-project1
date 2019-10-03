@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:crypto/crypto.dart';
-import 'package:project1/data/API.dart';
-import 'package:project1/data/User.dart';
-import 'package:project1/data/UserLogin.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:project1/data/CreateUserLogin.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../main.dart';
 import 'HomeClass.dart';
+
 
 
 TextEditingController _usernameController = TextEditingController();
@@ -23,63 +22,83 @@ class Login extends StatefulWidget{
 class LoginState extends State<Login>{
   //final _formKey = GlobalKey<FormState>();
   
-  var userslogin = new List<UserLogin>();
-  var users = new List<User>();
-  List usersdata;
-  List data;
+  // var userslogin = new List<UserLogin>();
+  // var users = new List<User>();
+  // List usersdata;
+  // List data;
 
 
-  _getUsers() { /// สำหรับส่งข้อมูลไปหน้าถัดไป
-    API.getUsersformDB().then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body);
-        usersdata = list.map((model) => User.fromJson(model)).toList();
-        data = usersdata;
-      });
-    });
-  }
-  _getUserLogin() {  //สำหรับใช้ Login
-    API.getUserLogin().then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body);
-        userslogin = list.map((model) => UserLogin.fromJson(model)).toList();
-        data = userslogin;
-      });
-    });
-  }
+  // _getUsers() { /// สำหรับส่งข้อมูลไปหน้าถัดไป
+  //   API.getUsersformDB().then((response) {
+  //     setState(() {
+  //       Iterable list = json.decode(response.body);
+  //       usersdata = list.map((model) => User.fromJson(model)).toList();
+  //       data = usersdata;
+  //     });
+  //   });
+  // }
+  // _getUserLogin() {  //สำหรับใช้ Login
+  //   API.getUserLogin().then((response) {
+  //     setState(() {
+  //       Iterable list = json.decode(response.body);
+  //       userslogin = list.map((model) => UserLogin.fromJson(model)).toList();
+  //       data = userslogin;
+  //     });
+  //   });
+  // }
 
 
-  getData() async {
-    _getUserLogin();
-    _getUsers();
-    print("********************TEST**********************");
-    var bytes  = utf8.encode(_passwordController.text);
-    var digest = sha256.convert(bytes);
+  // getData() async {
+  //   _getUserLogin();
+  //   _getUsers();
+  //   print("********************TEST**********************");
+  //   var bytes  = utf8.encode(_passwordController.text);
+  //   var digest = sha256.convert(bytes);
          
-    for (int i = 0; i < userslogin.length; i++) {
-      if(_usernameController.text == userslogin[i].username){
-        // print("Good1 "  + i.toString() );
-        if(digest.toString() == userslogin[i].password){
-          print("Pass " + i.toString());
+  //   for (int i = 0; i < userslogin.length; i++) {
+  //     if(_usernameController.text == userslogin[i].username){
+  //       // print("Good1 "  + i.toString() );
+  //       if(digest.toString() == userslogin[i].password){
+  //         print("Pass " + i.toString());
           
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setInt("Index", i);
-          xIndex = prefs.getInt("Index");
-          print(prefs.getInt("Index"));
+  //         SharedPreferences prefs = await SharedPreferences.getInstance();
+  //         prefs.setInt("Index", i);
+  //         xUser= prefs.getInt("Index");
+  //         print(prefs.getInt("Index"));
           
 
-          // Navigator.of(context).pushNamed("/" + homeclass);
-          Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass( user: usersdata[xIndex],)),);
-          break;
-        }else{
-          print("Password wrong " + i.toString());
-          break;
-        }
-      }
-      print(i);
-    }
-    print("**********************************************");
+  //         // Navigator.of(context).pushNamed("/" + homeclass);
+  //         Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass( user: usersdata[xIndex],)),);
+  //         break;
+  //       }else{
+  //         print("Password wrong " + i.toString());
+  //         break;
+  //       }
+  //     }
+  //     print(i);
+  //   }
+  //   print("**********************************************");
+  // }
+
+  loginTo() async {
+
+    var bytes  = utf8.encode(_passwordController.text);
+    var digest = sha256.convert(bytes);        
+    CreateUserLogin newCreateLogin = new CreateUserLogin(/*id: 0,*/ username: _usernameController.text, password: digest.toString());
+    CreateUserLogin c = await createuserLogine(urlLogin,body: newCreateLogin.toMap());
+    
+    
+    if(loginState != null ){
+            Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0])),);
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString("User", users[0].id);
+            print(prefs.getInt("User"));
+    }  
   }
+
+  // routeTo(){
+  //   Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass()),);
+  // }
 
 
   
@@ -88,7 +107,7 @@ class LoginState extends State<Login>{
   Widget build(BuildContext context){
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance = ScreenUtil(width: 500, height: 1200, allowFontScaling: true);
-    print("Login===> " + xIndex.toString());
+    // print("Login===> " + xUser);
      SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
@@ -152,7 +171,8 @@ class LoginState extends State<Login>{
                               color: Colors.transparent,
                               child: InkWell(
                                 //onTap: () { Navigator.of(context).pushNamed("/" + homeclass); },
-                                onTap: () { getData(); },
+                                // onTap: () { getData(); },
+                                onTap: (){ loginTo();},
                                 child: Center(
                                   child: Text("SIGNIN",
                                           style: TextStyle(

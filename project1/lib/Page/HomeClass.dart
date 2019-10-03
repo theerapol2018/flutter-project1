@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:project1/Page/UserInFor.dart';
 import 'package:project1/data/JoinClass.dart';
 import 'package:project1/data/User.dart';
+// import 'package:project1/data/User.dart';
 import 'package:project1/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'ClassListView.dart';
@@ -17,15 +18,15 @@ class HomeClass extends StatelessWidget{
   final ClassListView classListView =  ClassListView();
   final User user ;
   
-     static final joinClassURL = 'http://48a371b6.ap.ngrok.io/'+'Subject/join';
-    //  static final joinClassURL = url+'joinclass';
+     
+   static final joinClassURL = url+'joinclass';
   HomeClass({Key key, @required this.user, }) : super(key: key);
  
 
 
   @override 
   Widget build(BuildContext context){ 
-  print("HomeClass xIndex==> " + xIndex.toString());
+  // print("HomeClass xIndex==> " + xUser);
 
     return Scaffold( 
       appBar: AppBar(
@@ -147,8 +148,6 @@ class HomeClass extends StatelessWidget{
                 
                 onTap: () {
                   Navigator.push(context,MaterialPageRoute(builder: (context) => UserInFor(user: user,)));
-                  // Navigator.pop(context);
-
                 },
               ),
               ListTile(
@@ -156,9 +155,9 @@ class HomeClass extends StatelessWidget{
                 title: Text('LogOut'),
                 onTap: () async {  
                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                  prefs.remove('Index');
-                  print(prefs.getInt('Index'));
-                  xIndex = null;
+                  prefs.remove('User');
+                  print(prefs.getInt('User'));
+                  xUser= null;
                   Navigator.of(context).pushNamed("/" + login); },
               ),
               ListTile( 

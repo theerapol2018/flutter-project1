@@ -4,12 +4,9 @@ import '../main.dart';
 
 class API {
   static Future getUsersformDB() {
-    var urlname = "studentuser";
-    var urlUsername = (url + urlname);
+    var urlUsername = (url2 + 'Student/info/'+ xUser);
     return http.get(urlUsername);
   }
-  static Future getUserLogin(){
-    return http.get(url+"userlogin");
-  }
-}
+
+ }
 

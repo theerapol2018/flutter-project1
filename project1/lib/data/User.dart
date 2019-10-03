@@ -1,84 +1,59 @@
 
 
 class User {
-  int id;
+  String id;
   String firstname;
   String lastname;
   String idstudent;
   String phone;
   String email;
-  List<Subjects> subjects;
+  String username;
+  String password;
+  // List<Subjects> subjects;
 
-  User({int id,String firstname, String lastname,String idstudent,String phone,String email, List<Subjects> subjects}) {
+  User({String id,String firstname, String lastname,String idstudent,String phone,String email,String username, String password /*List<Subjects> subjects*/}) {
     this.id = id;
     this.firstname = firstname;
     this.lastname = lastname;
     this.idstudent = idstudent;
     this.phone = phone;
     this.email = email;
-    this.subjects = subjects;
+    this.username = username;
+    this.password = password;
+
+    // this.subjects = subjects;
   }
  
   factory User.fromJson(Map<String, dynamic> json){
-    var list = json['subjects'] as List;
-    print(list.runtimeType);
-    List<Subjects> subjectsList = list.map((i) => Subjects.fromJson(i)).toList();
+    // var list = json['subjects'] as List;
+    // print(list.runtimeType);
+    // List<Subjects> subjectsList = list.map((i) => Subjects.fromJson(i)).toList();
     return User(
-      id: json['id'],
-      firstname: json['firstname'],
-      lastname:json['lastname'],
-      idstudent: json['idstudent'],
-      phone:json['phone'],
-      email:json['email'],
-      subjects: subjectsList
+      id: json['student_id'],
+      idstudent: json['SID'],
+      firstname: json['SfirstName'],
+      lastname:json['SlastName'],
+      username :json['Susername'],
+      password : json ['Spassword'],
+      phone:json['Sphone'],
+      email:json['Semail']
+      
+      // subjects: subjectsList
     );
   }
          
 
   Map toJson() {
     return {
-      'id': id,
-      'firstname': firstname, 
-      'lastname': lastname, 
-      'idstudent': idstudent, 
-      'phone': phone, 
-      'email': email, 
+      'student_id': id,
+      'SID': idstudent, 
+      'SfirstName': firstname, 
+      'SlastName': lastname, 
+      'Susername':username,
+      'Spassword':password,
+      'Sphone': phone, 
+      'Semail': email
+      
     };
   }
-}
-
-class Subjects{
- String subjectid;
- String sId;
- String sName;
- String sDescription;
- String sTeacher;
-
-Subjects({String subjectid, String sId, String sName, String sDescription, String sTeacher}){
-  this.subjectid = subjectid;
-  this.sId = sId;
-  this.sName = sName;
-  this.sDescription = sDescription;
-  this.sTeacher = sTeacher;
-}
- factory Subjects.fromJson(Map<String, dynamic> json){
-   return Subjects(
-    subjectid:json['subjectid'],
-    sId: json['sId'],
-    sName: json['sName'],
-    sDescription: json['sDescription'],
-    sTeacher: json['sTeacher']
-   );
-  }
-
-Map tojson(){
-  return {
-      'subjectid': subjectid,
-      'sId': sId, 
-      'sName': sName, 
-      'sDescription': sDescription, 
-      'sTeacher': sTeacher, 
-  };
-}
-
 }

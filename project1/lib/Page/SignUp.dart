@@ -22,16 +22,14 @@ import '../main.dart';
 class SignUp extends StatefulWidget {
   static const String routeName = "/signup";
   //  static final postUserURL = url+'studentuser';
-  static final postUserURL = 'http://48a371b6.ap.ngrok.io/'+'Student/new';
-   static final postUserLoginURL = url+"userlogin"; 
+  
+  //  static final postUserLoginURL = url+"userlogin"; 
 
   @override
   _SignUpState createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
-  // var createSubjects = new List<CreateSubjects>();
-
 
   @override 
   Widget build(BuildContext context){
@@ -83,14 +81,7 @@ class _SignUpState extends State<SignUp> {
                                 CreateUser newCreateUser = new CreateUser( /*id: 0,*/ firstname: firstNameControler.text, lastname: lastNameControler.text,
                                                           idstudent: idStudentControler.text, phone: phoneControler.text, username: usernameControler.text, password: digest.toString(),
                                                           email: emailControler.text, /*subjects : createSubjects*/);
-                                CreateUser p = await createUsers(SignUp.postUserURL,body: newCreateUser.toMap());
-                              //  print(json.decode(p.firstname));
-
-                                // CreateUserLogin newCreateLogin = new CreateUserLogin(id: 0, username: usernameControler.text, password: digest.toString());
-                                // CreateUserLogin c = await createuserLogine(SignUp.postUserLoginURL,body: newCreateLogin.toMap());
-                                // print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                                // print(c.username + c.password);
-
+                                CreateUser p = await createUsers(postUserURL,body: newCreateUser.toMap());
                               },
                               child: Center(
                                 child: Text("SIGN UP",

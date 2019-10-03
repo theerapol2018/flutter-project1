@@ -24,27 +24,21 @@ class _SplashScreenState extends State<SplashScreen>  {
   }
 
   void navigationPage() {
-    if(xIndex == null){
+    if(xUser== null){
       Navigator.of(context).pushNamed("/" + login);
     }else{
-      print(" I = " + i.toString());
-        Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass( user: users[xIndex],)),);
+        Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0],)),);
     }
   }
 
   getIndex() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-     final int intValue = prefs.getInt('Index');
-     xIndex = intValue;
-     i = intValue;
-     print("getIndex : == "+ intValue.toString());
+     xUser = prefs.getString('User');
+     print("xUser : == "+ xUser.toString());
 
-    API.getUsersformDB().then((response) {
-      // setState(() {
+    API.getUsersformDB().then((response) {   
       Iterable list = json.decode(response.body);
       users = list.map((model) => User.fromJson(model)).toList();
-      print(users[i].firstname);
-      // });
     });
   }
   

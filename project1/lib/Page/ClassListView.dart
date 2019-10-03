@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:project1/data/User.dart';
+// import 'package:project1/data/User.dart';
 import '../main.dart';
 
 class ClassListView {
@@ -28,7 +29,7 @@ class ClassListView {
     );   
   }
 
- GridView build(BuildContext context, User user, ) {
+ GridView build(BuildContext contex, User user, ) {
     return GridView.count(
       primary: true,
       padding: const EdgeInsets.all(2.0),
@@ -38,7 +39,7 @@ class ClassListView {
       crossAxisSpacing: 0.5,
       
       children: <Widget>[
-       for (int i = 0; i < user.subjects.length; i++) getStructuredGridCell(user.subjects[i].sName, "",context)
+      //  for (int i = 0; i < user.subjects.length; i++) getStructuredGridCell(user.subjects[i].sName, "",context)
        
       ],
     );

@@ -9,20 +9,13 @@ import 'Camera.dart';
   
 class Subject extends StatefulWidget{
    static const String routeName = "/subject";
- 
-
- 
-
   @override
   _SubjectState createState() => _SubjectState();
 }
 
-class _SubjectState extends State<Subject> {
-  
+class _SubjectState extends State<Subject> { 
 
 @override
-
-
   Widget build(BuildContext context){
     return Scaffold( 
       appBar: AppBar( 
@@ -41,11 +34,9 @@ class _SubjectState extends State<Subject> {
                   onTap: () {
                     print("Card 1");
                     // Navigator.push(context,MaterialPageRoute(builder: (context) => SubjectInFor()));
-                    // Navigator.of(context).pushNamed("/" + camera);
-                    
+                    // Navigator.of(context).pushNamed("/" + camera);                    
                   },
-                  child: Card(
-                    
+                  child: Card(                    
                     elevation: 5.0,
                     child: Container(
                       width: 250,
@@ -81,42 +72,31 @@ class _SubjectState extends State<Subject> {
                         ],
                       ),
                     ),
-
                   ),
-              )
-          
+              )   
             ],
           ),
         ),
       )
-
-
-
     );
   }
 
   String _counter,_value = "";
 
   Future _incrementCounter() async{
-
-    _counter= await FlutterBarcodeScanner.scanBarcode("#004297", "Cancel", true);
-
+    _counter= await FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", false, ScanMode.DEFAULT);
     setState(() {
       _value=_counter;
     });
     if(_value != "-1"){
       openCamera();
     }
-
   }
   
- 
   openCamera() async {
     final cameras = await availableCameras();
-    final  firstCamera = cameras.first;
-    // if(_value == "-1"){
-      Navigator.push(context,MaterialPageRoute(builder: (context) => TakePictureScreen(camera: firstCamera)),);
-    // }
-    
+    // final  firstCamera = cameras.first;
+    // final  frontCamera = cameras[1];
+      Navigator.push(context,MaterialPageRoute(builder: (context) => TakePictureScreen(camera: cameras)),);
   }
 }

@@ -1,18 +1,19 @@
-// import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-
-// import 'package:project1/Page/SubjectInFor.dart';
 import 'Page//ForgotPW.dart';
 import 'Page/SignUp.dart';
-
-
 import 'Page/Login.dart';
-// import 'Page/Subject.dart';
 import 'Page/SplashScreen.dart';
 import 'Page/Subject.dart';
 import 'Page/SubjectInFor.dart';
+import 'data/User.dart';
 
 var url = ("https://jsonflutter.herokuapp.com/");
+var url2 =("http://c79e6bb3.ap.ngrok.io/");
+var postUserURL = url2 +'Student/new';
+var urlLogin = url2 + "Student/login";
+var joinClassURL = url2 + 'Subject/join';
+var loginState;
+
 String signup = "signup";
 String forgetpw = "forgetpw";
 String homeclass = "homeclass";
@@ -21,7 +22,11 @@ String subject = "subject";
 String subjectInFor = "subjectinfor";
 String camera = "camera";
 int numColor = 500, numColor1 = 50, numColor2 = 100;
-int xIndex ;
+String xUser;
+ var users = new List<User>();
+  List usersdata;
+  List data;
+String headerUser;
 
 void main()  {
  
@@ -58,3 +63,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+ 
