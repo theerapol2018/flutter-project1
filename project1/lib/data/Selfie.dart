@@ -1,23 +1,26 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-import '../main.dart';
 
 
-class DataCheck{
-  // final int id;
+class Selfie{
+  String studentId;
+  String imageSelfie;
   String dataCheck;
+  
  
 
-  DataCheck({
-    // this.id,
+  Selfie({
+    this.studentId,
+    this.imageSelfie,
     this.dataCheck,
     
   });
 
-  factory DataCheck.fromJson(Map<String, dynamic> json){
-    return DataCheck(
-      // id : json['id'],
+  factory Selfie.fromJson(Map<String, dynamic> json){
+    return Selfie(
+      studentId : json['Csid'],
+      imageSelfie: json['ImageSelfie'],
       dataCheck: json['AQRcode'],
       
     );
@@ -25,6 +28,8 @@ class DataCheck{
 
   Map toMap(){
     var map = new Map<String, dynamic>();
+    map['Csid'] = studentId;
+    map['ImageSelfie'] = imageSelfie;
     map['AQRcode'] = dataCheck;
     
     return map;
@@ -32,7 +37,7 @@ class DataCheck{
 
 }
 
-Future<DataCheck> send(String url, {Map body}) async {
+Future<Selfie> selfieQR(String url, {Map body}) async {
  print("Send: \\|/");
  print(body);
  print(json.encode(body));
@@ -46,7 +51,7 @@ Future<DataCheck> send(String url, {Map body}) async {
     }
      print("response: >>> \\|/");
      print(json.decode(response.body));
-    scanState = json.decode(response.body);
+    
     // return JoinClass.fromJson(json.decode(response.body));
   });
 }

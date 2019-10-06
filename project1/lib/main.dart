@@ -3,17 +3,17 @@ import 'Page//ForgotPW.dart';
 import 'Page/SignUp.dart';
 import 'Page/Login.dart';
 import 'Page/SplashScreen.dart';
-import 'Page/Subject.dart';
 import 'Page/SubjectInFor.dart';
 import 'data/Subjects.dart';
 import 'data/User.dart';
 
 var url = ("https://jsonflutter.herokuapp.com/");
-var url2 =("http://fe60b4be.ap.ngrok.io/");
+var url2 =("http://0bdda44f.ap.ngrok.io/");
 var postUserURL = url2 +'Student/new';
 var urlLogin = url2 + "Student/login";
 var joinClassURL = url2 + 'Subject/join';
 var dateCheck = url2+'Attendance/CheckQR';
+var selfieqr = url2 + 'Attendance/Checkname';
 var loginState;
 var scanState;
 
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
       SignUp.routeName: (BuildContext context) => SignUp(),
       ForgetPW.routeName: (BuildContext context) => ForgetPW(),
       Login.routeName:(BuildContext context) => Login(),
-      Subject.routeName:(BuildContext context) => Subject(),
+      // Subject.routeName:(BuildContext context) => Subject(),
       SubjectInFor.routeName:(BuildContext context) => SubjectInFor(),
       // Camera.routeName:(BuildContext context) => Camera(cameras),
       },

@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:crypto/crypto.dart';
+import 'package:project1/data/API.dart';
 import 'package:project1/data/CreateUserLogin.dart';
 import 'package:flutter/services.dart';
+import 'package:project1/data/Subjects.dart';
+import 'package:project1/data/User.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../main.dart';
@@ -27,14 +32,55 @@ class LoginState extends State<Login>{
     var digest = sha256.convert(bytes);        
     CreateUserLogin newCreateLogin = new CreateUserLogin(/*id: 0,*/ username: _usernameController.text, password: digest.toString());
     CreateUserLogin c = await createuserLogine(urlLogin,body: newCreateLogin.toMap());
-    
+
+    // API.getUsersLogin().then((response) {   
+    //   Iterable list = json.decode(response.body);
+    //   users = list.map((model) => User.fromJson(model)).toList();
+    //   print(users[0].idstudent);
+    //   API.getSubject(users[0].idstudent).then((response) {   
+    //     Iterable list = json.decode(response.body);
+    //     subjectName = list.map((model) => Subjects.fromJson(model)).toList();
+    //   });
+    // });
     
     if(loginState != null ){
-            Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0])),);
+            // Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0])),);
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("User", users[0].id);
             print(prefs.getString("User"));
+
+            API.getUsersLogin(users[0].id).then((response) {   
+            Iterable list = json.decode(response.body);
+            users = list.map((model) => User.fromJson(model)).toList();
+            print(users[0].idstudent);
+
+            API.getSubject(users[0].idstudent).then((response) {   
+              Iterable list = json.decode(response.body);
+              subjectName = list.map((model) => Subjects.fromJson(model)).toList();
+            });
+            
+            Future.delayed(const Duration(milliseconds: 300), () {
+
+              setState(() {
+                Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0])),);
+              });
+
+            });
+
+
+      });
+            
+
     }  
+  //   startTime() async {
+  //   var _duration = new Duration(seconds: 10);
+  //   return new Timer(_duration,nextPage);
+  //   }
+  //  void nextPage() {
+  //         Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0],)),);
+  //     }
+  //   }
+
   }
   
 
@@ -105,7 +151,7 @@ class LoginState extends State<Login>{
                             child: Material(
                               color: Colors.transparent,
                               child: InkWell(
-                                //onTap: () { Navigator.of(context).pushNamed("/" + homeclass); },
+                                // onTap: () { Navigator.of(context).pushNamed("/" + homeclass); },
                                 // onTap: () { getData(); },
                                 onTap: (){ loginTo();},
                                 child: Center(

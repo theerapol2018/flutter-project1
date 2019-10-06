@@ -3,12 +3,16 @@ import 'dart:async';
 import '../main.dart';
 
 class API {
+   static Future getUsersLogin(String id) {
+    var urlUsername = (url2 + 'Student/info/'+ id);
+    return http.get(urlUsername);
+  }
   static Future getUsersformDB() {
     var urlUsername = (url2 + 'Student/info/'+ xUser);
     return http.get(urlUsername);
   }
 static Future getSubject(String studentID){
-  return http.get('http://fe60b4be.ap.ngrok.io/Student/subject/B5907953');
+  return http.get(url2 +'Student/subject/'+studentID);
 }
 
  }

@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => new _SplashScreenState();
@@ -25,7 +26,9 @@ class _SplashScreenState extends State<SplashScreen>  {
   }
 
   void navigationPage() {
-    if(xUser== null){
+    // Navigator.push(context,MaterialPageRoute(builder: (context) => SubjectInFor()));
+
+    if(xUser == null){
       Navigator.of(context).pushNamed("/" + login);
     }else{
         Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0],)),);

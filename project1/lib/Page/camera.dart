@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
+import 'package:project1/data/User.dart';
 import 'package:project1/meterial/fab_bottom_app_bar.dart';
 import 'DisplayPictureScreen.dart';
 
 int i=1;
 class TakePictureScreen extends StatefulWidget {
   final List<CameraDescription> camera;
-  const TakePictureScreen({
-    Key key,
-    @required this.camera,
-  }) : super(key: key);
+  final User user;
+  final String qr;
+  const TakePictureScreen({Key key,@required this.camera,this.user,this.qr}) : super(key: key);
 
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
@@ -88,11 +88,13 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               (await getTemporaryDirectory()).path,
               '${DateTime.now()}.png',
             );
+            String imageFile = '${DateTime.now()}.png';    //No Directory
             await _controller.takePicture(path);
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: path),),
+              MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: path,image: imageFile,studentId: widget.user.idstudent,qr: widget.qr,),),
             );
+            print(imageFile+"***************************************************");
             print(path);
           } catch (e) {print(e);}
         },

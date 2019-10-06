@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:project1/Page/Subject.dart';
 import 'package:project1/data/User.dart';
 import '../main.dart';
 
 class ClassListView {
 
   
-  Card getStructuredGridCell(name,image,BuildContext context){
+  Card getStructuredGridCell(name,image,BuildContext context,User user){
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     
     return Card( 
@@ -16,7 +17,8 @@ class ClassListView {
       child: InkWell(
         onTap: () {
           print("tapped");
-          Navigator.of(context).pushNamed("/" + subject);
+          // Navigator.of(context).pushNamed("/" + subject);
+          Navigator.push(context,MaterialPageRoute(builder: (context) => Subject(user: user,)));
         },
         child: Column(
           children: <Widget>[
@@ -42,7 +44,7 @@ class ClassListView {
       
       children: <Widget>[
            for (int i = 0; i < subjectName.length; i++) 
-        getStructuredGridCell(subjectName[i].sName, "",context)
+        getStructuredGridCell(subjectName[i].sName, "",context,user)
       ],
     );
   }
