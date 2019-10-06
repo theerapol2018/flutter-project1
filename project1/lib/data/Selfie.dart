@@ -2,11 +2,15 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
+import 'package:project1/main.dart';
+
 
 class Selfie{
   String studentId;
   String imageSelfie;
   String dataCheck;
+  String firstName;
+  String lastName;
   
  
 
@@ -14,6 +18,8 @@ class Selfie{
     this.studentId,
     this.imageSelfie,
     this.dataCheck,
+    this.firstName,
+    this.lastName
     
   });
 
@@ -22,7 +28,8 @@ class Selfie{
       studentId : json['Csid'],
       imageSelfie: json['ImageSelfie'],
       dataCheck: json['AQRcode'],
-      
+      firstName: json['SfirstName'],
+      lastName: json['SlastName']
     );
   }
 
@@ -31,7 +38,8 @@ class Selfie{
     map['Csid'] = studentId;
     map['ImageSelfie'] = imageSelfie;
     map['AQRcode'] = dataCheck;
-    
+    map['SfirstName'] = firstName;
+    map['SlasttName'] = lastName;
     return map;
   }
 
@@ -51,7 +59,7 @@ Future<Selfie> selfieQR(String url, {Map body}) async {
     }
      print("response: >>> \\|/");
      print(json.decode(response.body));
-    
+     selfieState = json.decode(response.body);
     // return JoinClass.fromJson(json.decode(response.body));
   });
 }

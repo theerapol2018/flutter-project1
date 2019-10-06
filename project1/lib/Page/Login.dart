@@ -8,6 +8,7 @@ import 'package:project1/data/CreateUserLogin.dart';
 import 'package:flutter/services.dart';
 import 'package:project1/data/Subjects.dart';
 import 'package:project1/data/User.dart';
+import 'package:project1/meterial/MyDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../main.dart';
@@ -33,16 +34,6 @@ class LoginState extends State<Login>{
     CreateUserLogin newCreateLogin = new CreateUserLogin(/*id: 0,*/ username: _usernameController.text, password: digest.toString());
     CreateUserLogin c = await createuserLogine(urlLogin,body: newCreateLogin.toMap());
 
-    // API.getUsersLogin().then((response) {   
-    //   Iterable list = json.decode(response.body);
-    //   users = list.map((model) => User.fromJson(model)).toList();
-    //   print(users[0].idstudent);
-    //   API.getSubject(users[0].idstudent).then((response) {   
-    //     Iterable list = json.decode(response.body);
-    //     subjectName = list.map((model) => Subjects.fromJson(model)).toList();
-    //   });
-    // });
-    
     if(loginState != null ){
             // Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0])),);
             SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -60,6 +51,7 @@ class LoginState extends State<Login>{
             });
             
             Future.delayed(const Duration(milliseconds: 300), () {
+            
 
               setState(() {
                 Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0])),);
@@ -72,16 +64,15 @@ class LoginState extends State<Login>{
             
 
     }  
-  //   startTime() async {
-  //   var _duration = new Duration(seconds: 10);
-  //   return new Timer(_duration,nextPage);
-  //   }
-  //  void nextPage() {
-  //         Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0],)),);
-  //     }
-  //   }
-
   }
+  // DialogState _dialogState = DialogState.DISMISSED;
+  // void _exportData() {
+  //   setState(() => _dialogState = DialogState.LOADING);
+  //   Future.delayed(Duration(seconds: 5)).then((_) {
+  //     setState(() => _dialogState = DialogState.COMPLETED);
+  //     Timer(Duration(seconds: 3), () => setState(() => _dialogState = DialogState.DISMISSED));
+  //   });
+  // }
   
 
   @override 
@@ -128,8 +119,12 @@ class LoginState extends State<Login>{
                     child: Column( 
                         crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
+                        
                         SizedBox(height: ScreenUtil.getInstance().setHeight(50),),
                         FormLogin(),
+                        // MyDialog(                          //test
+                        //   state: _dialogState,
+                        // ),
                         SizedBox(height: ScreenUtil.getInstance().setHeight(40),),
                         InkWell(
                           child: Container(
@@ -153,7 +148,11 @@ class LoginState extends State<Login>{
                               child: InkWell(
                                 // onTap: () { Navigator.of(context).pushNamed("/" + homeclass); },
                                 // onTap: () { getData(); },
-                                onTap: (){ loginTo();},
+                                onTap: (){ 
+                                  loginTo();
+                                  
+                                  // _exportData();               //test
+                                },
                                 child: Center(
                                   child: Text("SIGNIN",
                                           style: TextStyle(
@@ -166,7 +165,9 @@ class LoginState extends State<Login>{
                               ),
                             ),
                           ),
-                        )
+                        ),
+                        
+
                       ],
                     ),
                   )    
@@ -299,6 +300,7 @@ class FormLogin extends StatelessWidget {
                       Navigator.of(context).pushNamed("/"+ forgetpw);
                     },
                 ),
+                
                
               ],
             )

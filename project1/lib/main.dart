@@ -13,9 +13,10 @@ var postUserURL = url2 +'Student/new';
 var urlLogin = url2 + "Student/login";
 var joinClassURL = url2 + 'Subject/join';
 var dateCheck = url2+'Attendance/CheckQR';
-var selfieqr = url2 + 'Attendance/Checkname';
+var selfieqr = url2 + 'Attendance/Checknamewithsocket';
 var loginState;
 var scanState;
+var selfieState;
 
 String signup = "signup";
 String forgetpw = "forgetpw";

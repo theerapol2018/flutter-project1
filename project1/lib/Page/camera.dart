@@ -50,6 +50,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
     ]);
+    
     return Scaffold(
       // appBar: AppBar(title: Text('Take a picture')),
       body: FutureBuilder<void>(
@@ -92,7 +93,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             await _controller.takePicture(path);
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: path,image: imageFile,studentId: widget.user.idstudent,qr: widget.qr,),),
+              MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: path,image: imageFile,studentId: widget.user.idstudent,qr: widget.qr,firstname: widget.user.firstname,lastname: widget.user.lastname,),),
             );
             print(imageFile+"***************************************************");
             print(path);

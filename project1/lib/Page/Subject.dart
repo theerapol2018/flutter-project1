@@ -10,7 +10,7 @@ import 'SubjectInFor.dart';
 
 
 List<CameraDescription> cameras;
-User user2;
+// User user2;
 
 class Subject extends StatefulWidget{
    static const String routeName = "/subject";
