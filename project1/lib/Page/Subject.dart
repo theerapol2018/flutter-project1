@@ -67,19 +67,7 @@ class _SubjectState extends State<Subject> {
               GestureDetector(
                   onTap: () async {
                     print("Card 2");
-<<<<<<< HEAD
-                    // Camera();          /************** */
-                    // _incrementCounter();
-                    // if(_value == null){
-                    //   print("----------------Null--------------");
-                      
-                    // }
-=======
                      _incrementCounter();
-                    
-                     
-        
->>>>>>> branch-1
                   },
                   child: Card(
                     
