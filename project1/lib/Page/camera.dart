@@ -1,46 +1,118 @@
-
-import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:camera/camera.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path/path.dart' show join;
+import 'package:path_provider/path_provider.dart';
+import 'package:project1/data/User.dart';
+import 'package:project1/meterial/fab_bottom_app_bar.dart';
+import 'DisplayPictureScreen.dart';
 
-List<CameraDescription> cameras;
+int i=1;
+class TakePictureScreen extends StatefulWidget {
+  final List<CameraDescription> camera;
+  final User user;
+  final String qr;
+  const TakePictureScreen({Key key,@required this.camera,this.user,this.qr}) : super(key: key);
 
-class Camera extends StatefulWidget {
   @override
-  _CameraState createState() => _CameraState();
+  TakePictureScreenState createState() => TakePictureScreenState();
 }
 
-class _CameraState extends State<Camera>{
-  CameraController controller;
-
+class TakePictureScreenState extends State<TakePictureScreen> {
+  CameraController _controller;
+  Future<void> _initializeControllerFuture;
+  String _lastSelected = 'TAB: 0';
+  
   @override
   void initState() {
     super.initState();
-    controller = CameraController(cameras[0], ResolutionPreset.medium);
-    controller.initialize().then((_) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {});
-    });
+      
+    _controller = CameraController(
+      widget.camera[i],
+      ResolutionPreset.high,
+    );
+
+    // Next, initialize the controller. This returns a Future.
+    _initializeControllerFuture = _controller.initialize();
   }
 
-   @override
+  @override
   void dispose() {
-    controller?.dispose();
+    // Dispose of the controller when the widget is disposed.
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!controller.value.isInitialized) {
-      return Container();
-    }
-    return AspectRatio(
-        aspectRatio:
-        controller.value.aspectRatio,
-        child: CameraPreview(controller));
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+    ]);
+    return Scaffold(
+      // appBar: AppBar(title: Text('Take a picture')),
+      body: FutureBuilder<void>(
+        future: _initializeControllerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {   // ตัวอย่าง รอโหลด !!!
+            return CameraPreview(_controller);
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+      // bottomNavigationBar: BottomAppBar(
+      //   shape: const CircularNotchedRectangle(),
+      //   child: Container(height: 50.0,),
+      // ),
+      bottomNavigationBar: FABBottomAppBar(
+        centerItemText: '',
+        color: Colors.grey,
+        selectedColor: Colors.red,
+        notchedShape: CircularNotchedRectangle(),
+        onTabSelected: _selectedTab,
+        items: [
+          FABBottomAppBarItem(iconData: Icons.arrow_back_ios, text: 'Back'),
+          // FABBottomAppBarItem(iconData: Icons.layers, text: 'Is'),
+          FABBottomAppBarItem(iconData: Icons.switch_camera, text: 'Switch Camera'),
+          // FABBottomAppBarItem(iconData: Icons.info, text: 'Bar'),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.camera_alt),
+        onPressed: () async {
+          try {
+            await _initializeControllerFuture;
+            final path = join(
+              (await getTemporaryDirectory()).path,
+              '${DateTime.now()}.png',
+            );
+            String imageFile = '${DateTime.now()}.png';    //No Directory
+            await _controller.takePicture(path);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: path,image: imageFile,studentId: widget.user.idstudent,qr: widget.qr,),),
+            );
+            print(imageFile+"***************************************************");
+            print(path);
+          } catch (e) {print(e);}
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
   }
-  
 
+
+
+   
+
+  void _selectedTab(int index) {
+
+    setState(() {
+      _lastSelected = 'TAB: $index';
+      print(_lastSelected);
+    });
+  }
 }
+

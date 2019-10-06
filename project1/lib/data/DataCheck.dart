@@ -1,38 +1,42 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import '../main.dart';
 
 
-class JoinClass{
+class DataCheck{
   // final int id;
-  String codeJoinClass;
-  String idstudent;
+  String dataCheck;
+ 
 
-  JoinClass({
+  DataCheck({
     // this.id,
-    this.codeJoinClass,
-    this.idstudent
+    this.dataCheck,
+    
   });
 
-  factory JoinClass.fromJson(Map<String, dynamic> json){
-    return JoinClass(
+  factory DataCheck.fromJson(Map<String, dynamic> json){
+    return DataCheck(
       // id : json['id'],
-      codeJoinClass: json['Jpassword'],
-      idstudent: json['JSID']
+      dataCheck: json['AQRcode'],
+      
     );
   }
 
   Map toMap(){
     var map = new Map<String, dynamic>();
-    map['Jpassword'] = codeJoinClass;
-    map['JSID'] = idstudent;
+    map['AQRcode'] = dataCheck;
+    
     return map;
   }
 
 }
 
-Future<JoinClass> joinClasss(String url, {Map body}) async {
-  print(body);
+Future<DataCheck> send(String url, {Map body}) async {
+ print("Send: \\|/");
+ print(body);
+ print(json.encode(body));
+ print(" ");
   return http.post(url, body: json.encode(body))
   .then((http.Response response) {
     final int statusCode = response.statusCode;
@@ -40,8 +44,9 @@ Future<JoinClass> joinClasss(String url, {Map body}) async {
     if (statusCode < 200 || statusCode > 400 || json == null) {
       throw new Exception("Error while fetching data");
     }
+     print("response: >>> \\|/");
      print(json.decode(response.body));
-     
+    scanState = json.decode(response.body);
     // return JoinClass.fromJson(json.decode(response.body));
   });
 }

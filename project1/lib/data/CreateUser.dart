@@ -4,23 +4,28 @@ import 'dart:async';
 
 
 class CreateUser {
-  final int id;
+  // final int id;
   final String firstname;
   final String lastname;
   final String idstudent;
-  final String branch;
+  final String phone;
   final String email;
+  final String username;
+  final String password;
   //  final String subjects;///////
   // final List<CreateSubjects>  subjects;/////////
   
 
  
-  CreateUser({this.id,
+  CreateUser({
+    // this.id,
     this.firstname,
     this.lastname,
     this.idstudent,
-    this.branch,
+    this.phone,
     this.email,
+    this.username, 
+    this.password
     // this.subjects /////////
   });
  
@@ -28,12 +33,14 @@ class CreateUser {
     // var list = json['subjects'] as List;////////////////
     // List<CreateSubjects> subjectsList = list.map((i) => CreateSubjects.fromJson(i)).toList(); ///////
     return CreateUser(
-        id : json['id'],
-        firstname : json['firstname'],
-        lastname : json['lastname'],
-        idstudent : json['idstudent'],
-        branch : json['branch'],
-        email : json['email'],
+        // id : json['id'],
+        firstname : json['SfirstName'],
+        lastname : json['SlastName'],
+        idstudent : json['SID'],
+        phone : json['Sphone'],
+        email : json['Semail'],
+        username : json['Susername'],
+        password : json['Spassword'],
         // subjects: json['subjects'] ///////////
         // subjects: subjectsList //////
     );
@@ -41,11 +48,14 @@ class CreateUser {
  
   Map toMap() {
     var map = new Map<String, dynamic >();
-    map["firstname"] = firstname;
-    map["lastname"] = lastname;
-    map["idstudent"] = idstudent;
-    map["branch"] = branch;
-    map["email"] = email;
+    map["SID"] = idstudent;
+    map["SfirstName"] = firstname;
+    map["SlastName"] = lastname;
+    map["Susername"] = username;
+    map["Spassword"] = password;
+    map["Sphone"] = phone;
+    map["Semail"] = email;
+    
     //  map["subjects"] = subjects; //////////
  
     return map;
@@ -53,13 +63,17 @@ class CreateUser {
 }
 
 Future<CreateUser> createUsers(String url, {Map body}) async {
-  return http.post(url, body: body).then((http.Response response) {
+  print(body);
+  return http.post(url, body: json.encode(body))
+  .then((http.Response response) {
     final int statusCode = response.statusCode;
  
     if (statusCode < 200 || statusCode > 400 || json == null) {
       throw new Exception("Error while fetching data");
     }
-    return CreateUser.fromJson(json.decode(response.body));
+    print(json.decode(response.body));
+    print(" ");
+       //ลองเปลี่ยนดู
   });
 }
 

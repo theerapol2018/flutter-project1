@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:project1/data/Subjects.dart';
 import 'HomeClass.dart';
 import 'package:project1/data/API.dart';
 import 'package:project1/data/User.dart';
@@ -9,6 +10,7 @@ import 'package:project1/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -24,28 +26,31 @@ class _SplashScreenState extends State<SplashScreen>  {
   }
 
   void navigationPage() {
-    if(xIndex == null){
+    // Navigator.push(context,MaterialPageRoute(builder: (context) => SubjectInFor()));
+
+    if(xUser == null){
       Navigator.of(context).pushNamed("/" + login);
     }else{
-      print(" I = " + i.toString());
-        Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass( user: users[xIndex],)),);
+        Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0],)),);
     }
   }
 
   getIndex() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-     final int intValue = prefs.getInt('Index');
-     xIndex = intValue;
-     i = intValue;
-     print("getIndex : == "+ intValue.toString());
+     xUser = prefs.getString('User');
+     print("xUser : == "+ xUser.toString());
 
-    API.getUsersformDB().then((response) {
-      // setState(() {
+    API.getUsersformDB().then((response) {   
       Iterable list = json.decode(response.body);
       users = list.map((model) => User.fromJson(model)).toList();
-      print(users[i].firstname);
-      // });
+      print(users[0].idstudent);
+      API.getSubject(users[0].idstudent).then((response) {   
+        Iterable list = json.decode(response.body);
+        subjectName = list.map((model) => Subjects.fromJson(model)).toList();
+      });
     });
+     
+    
   }
   
   @override

@@ -1,17 +1,19 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import '../main.dart';
+import 'User.dart';
 
 class CreateUserLogin{
-  final int id;
+  // final int id;
   final String username;
   final String password;
 
-  CreateUserLogin({this.id, this.username, this.password});
+  CreateUserLogin({/*this.id,*/ this.username, this.password});
 
   factory CreateUserLogin.fromJson(Map<String, dynamic> json){
     return CreateUserLogin(
-      id : json['id'],
+      // id : json['id'],
       username : json['username'],
       password : json['password'],
     );
@@ -27,13 +29,26 @@ class CreateUserLogin{
 
 }
 
+
+  
 Future<CreateUserLogin> createuserLogine(String url, {Map body}) async {
-  return http.post(url, body: body).then((http.Response response) {
+  print(body);
+  return http.post(url, body: json.encode(body)).then((http.Response response) {
     final int statusCode = response.statusCode;
- 
+    loginState = statusCode.toInt();
+    print(json.decode(response.body));
+    print(".......");
+    loginState = json.decode(response.body);    //ได้  json กลับมาจาก post
+    Iterable list = json.decode(response.body);
+    users = list.map((model) => User.fromJson(model)).toList();
+    print(users[0].id);  
+
     if (statusCode < 200 || statusCode > 400 || json == null) {
+
       throw new Exception("Error while fetching data");
+      
     }
-    return CreateUserLogin.fromJson(json.decode(response.body));
+    
+    // return CreateUserLogin.fromJson(json.decode(response.body));
   });
 }
