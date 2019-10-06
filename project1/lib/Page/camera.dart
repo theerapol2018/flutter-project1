@@ -23,7 +23,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   CameraController _controller;
   Future<void> _initializeControllerFuture;
   String _lastSelected = 'TAB: 0';
-
+  
   @override
   void initState() {
     super.initState();
@@ -93,6 +93,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               context,
               MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: path),),
             );
+            print(path);
           } catch (e) {print(e);}
         },
       ),
@@ -105,8 +106,10 @@ class TakePictureScreenState extends State<TakePictureScreen> {
    
 
   void _selectedTab(int index) {
+
     setState(() {
       _lastSelected = 'TAB: $index';
+      print(_lastSelected);
     });
   }
 }

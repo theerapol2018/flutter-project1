@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:project1/data/Subjects.dart';
 import 'HomeClass.dart';
 import 'package:project1/data/API.dart';
 import 'package:project1/data/User.dart';
@@ -39,7 +40,14 @@ class _SplashScreenState extends State<SplashScreen>  {
     API.getUsersformDB().then((response) {   
       Iterable list = json.decode(response.body);
       users = list.map((model) => User.fromJson(model)).toList();
+      print(users[0].idstudent);
+      API.getSubject(users[0].idstudent).then((response) {   
+        Iterable list = json.decode(response.body);
+        subjectName = list.map((model) => Subjects.fromJson(model)).toList();
+      });
     });
+     
+    
   }
   
   @override

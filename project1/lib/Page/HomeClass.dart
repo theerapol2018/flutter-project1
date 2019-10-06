@@ -1,10 +1,11 @@
-// import 'dart:convert';
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:project1/Page/UserInFor.dart';
+import 'package:project1/data/API.dart';
 import 'package:project1/data/JoinClass.dart';
+import 'package:project1/data/Subjects.dart';
 import 'package:project1/data/User.dart';
-// import 'package:project1/data/User.dart';
 import 'package:project1/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'ClassListView.dart';
@@ -18,8 +19,7 @@ class HomeClass extends StatelessWidget{
   final ClassListView classListView =  ClassListView();
   final User user ;
   
-     
-   static final joinClassURL = url+'joinclass';
+ 
   HomeClass({Key key, @required this.user, }) : super(key: key);
  
 
@@ -27,16 +27,20 @@ class HomeClass extends StatelessWidget{
   @override 
   Widget build(BuildContext context){ 
   // print("HomeClass xIndex==> " + xUser);
+  
+   
+  
 
     return Scaffold( 
       appBar: AppBar(
         // centerTitle: true,
         title: Text('HomeClass',
                     style: TextStyle(  
-                      color: Colors.amber
+                      color: Colors.amber[numColor2]
                     ),  
                   ),
-        backgroundColor: Colors.amber[numColor2],
+        elevation: 0,
+        backgroundColor: Colors.amber[numColor1],
         iconTheme: new IconThemeData(color: Colors.grey),
         actions: <Widget>[
         IconButton(icon: Icon(Icons.input), 
@@ -74,6 +78,7 @@ class HomeClass extends StatelessWidget{
                                           if (joinClass != null){
                                             print("--------------NULL-------------");
                                           }
+                                          Navigator.pop(context);
                                           // print(joinClass);
                                           // print(joinClass.idstudent);
                                       
@@ -110,7 +115,7 @@ class HomeClass extends StatelessWidget{
           ),       
         ],       
       ),
-      //Drawer
+      //Drawer*****
       drawer: Drawer(  
         child: Container(
           color: Colors.amber[numColor1],
@@ -120,21 +125,26 @@ class HomeClass extends StatelessWidget{
               DrawerHeader(
                 
                 child: Container( 
-                  width: 30.0,
-                  height: 30.0,
+                  
                   child: Padding( 
                     padding: EdgeInsets.all(30),
-                    child: CircleAvatar( 
-                      backgroundImage: NetworkImage(''),
-                      minRadius: 90,
-                      maxRadius: 180,
-                      child: Text(this.user.firstname,
-                                 style: TextStyle( 
-                                   color: Colors.white70
-                                 ), 
-                      ),
-                      backgroundColor: Colors.greenAccent,
-                    ), 
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage("https://uppic.cc/d/5kD4"),
+                     
+                    ),
+                    // child: CircleAvatar( 
+                    //   backgroundImage: NetworkImage(''),
+                    //   minRadius: 90,
+                    //   maxRadius: 180,
+                    // ),
+                      // child: Text(this.user.firstname,
+                      //            style: TextStyle( 
+                      //              color: Colors.white70
+                      //            ), 
+                      // ),
+                      
+                      // backgroundColor: Colors.greenAccent,
+                    // ), 
                   ),
                 ),
                 decoration: BoxDecoration(  
@@ -176,5 +186,16 @@ class HomeClass extends StatelessWidget{
       backgroundColor: Colors.amber[numColor1], 
      
     );
+  }
+
+    getIndex() async {
+   
+     API.getSubject(user.idstudent).then((response) {   
+        Iterable list = json.decode(response.body);
+        subjectName = list.map((model) => Subjects.fromJson(model)).toList();
+      });
+  }
+  void initState() {
+    getIndex();
   }
 }

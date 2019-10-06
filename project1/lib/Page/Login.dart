@@ -20,65 +20,6 @@ class Login extends StatefulWidget{
 }
 
 class LoginState extends State<Login>{
-  //final _formKey = GlobalKey<FormState>();
-  
-  // var userslogin = new List<UserLogin>();
-  // var users = new List<User>();
-  // List usersdata;
-  // List data;
-
-
-  // _getUsers() { /// สำหรับส่งข้อมูลไปหน้าถัดไป
-  //   API.getUsersformDB().then((response) {
-  //     setState(() {
-  //       Iterable list = json.decode(response.body);
-  //       usersdata = list.map((model) => User.fromJson(model)).toList();
-  //       data = usersdata;
-  //     });
-  //   });
-  // }
-  // _getUserLogin() {  //สำหรับใช้ Login
-  //   API.getUserLogin().then((response) {
-  //     setState(() {
-  //       Iterable list = json.decode(response.body);
-  //       userslogin = list.map((model) => UserLogin.fromJson(model)).toList();
-  //       data = userslogin;
-  //     });
-  //   });
-  // }
-
-
-  // getData() async {
-  //   _getUserLogin();
-  //   _getUsers();
-  //   print("********************TEST**********************");
-  //   var bytes  = utf8.encode(_passwordController.text);
-  //   var digest = sha256.convert(bytes);
-         
-  //   for (int i = 0; i < userslogin.length; i++) {
-  //     if(_usernameController.text == userslogin[i].username){
-  //       // print("Good1 "  + i.toString() );
-  //       if(digest.toString() == userslogin[i].password){
-  //         print("Pass " + i.toString());
-          
-  //         SharedPreferences prefs = await SharedPreferences.getInstance();
-  //         prefs.setInt("Index", i);
-  //         xUser= prefs.getInt("Index");
-  //         print(prefs.getInt("Index"));
-          
-
-  //         // Navigator.of(context).pushNamed("/" + homeclass);
-  //         Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass( user: usersdata[xIndex],)),);
-  //         break;
-  //       }else{
-  //         print("Password wrong " + i.toString());
-  //         break;
-  //       }
-  //     }
-  //     print(i);
-  //   }
-  //   print("**********************************************");
-  // }
 
   loginTo() async {
 
@@ -92,15 +33,9 @@ class LoginState extends State<Login>{
             Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0])),);
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("User", users[0].id);
-            print(prefs.getInt("User"));
+            print(prefs.getString("User"));
     }  
   }
-
-  // routeTo(){
-  //   Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass()),);
-  // }
-
-
   
 
   @override 

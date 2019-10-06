@@ -7,6 +7,9 @@ class API {
     var urlUsername = (url2 + 'Student/info/'+ xUser);
     return http.get(urlUsername);
   }
+static Future getSubject(String studentID){
+  return http.get('http://fe60b4be.ap.ngrok.io/Student/subject/B5907953');
+}
 
  }
 

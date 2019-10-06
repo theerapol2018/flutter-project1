@@ -2,6 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:project1/data/DataCheck.dart';
+import 'package:project1/main.dart';
 import 'Camera.dart';
 
 
@@ -49,15 +51,11 @@ class _SubjectState extends State<Subject> {
                   ),
               ),
               GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     print("Card 2");
-                    // Camera();
                      _incrementCounter();
-                  
-                    // if(_value == null){
-                    //   print("----------------Null--------------");
-                      
-                    // }
+                     
+        
                   },
                   child: Card(
                     
@@ -84,19 +82,31 @@ class _SubjectState extends State<Subject> {
   String _counter,_value = "";
 
   Future _incrementCounter() async{
-    _counter= await FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", false, ScanMode.DEFAULT);
-    setState(() {
-      _value=_counter;
-    });
-    if(_value != "-1"){
-      openCamera();
+    _counter= await FlutterBarcodeScanner.scanBarcode("#11f73f", "Cancel", false, ScanMode.DEFAULT);
+    setState(() {_value = _counter;});
+    DataCheck newSend = new DataCheck(dataCheck: _value);
+    DataCheck news = await send(dateCheck,body: newSend.toMap());    
+      // if(_value != "-1"){
+      //   openCamera();
+      // }
+      // dataCheck = _value;
+  }
+          
+    openCamera() async {
+      final cameras = await availableCameras();
+      // final  firstCamera = cameras.first;
+      // final  frontCamera = cameras[1];
+        Navigator.push(context,MaterialPageRoute(builder: (context) => TakePictureScreen(camera: cameras)),);
     }
-  }
+   
+   checkOpen() {
+     print(scanState);
+      if(scanState != null){
+        openCamera();
+      }
+   }
+      
+         
+      
   
-  openCamera() async {
-    final cameras = await availableCameras();
-    // final  firstCamera = cameras.first;
-    // final  frontCamera = cameras[1];
-      Navigator.push(context,MaterialPageRoute(builder: (context) => TakePictureScreen(camera: cameras)),);
-  }
 }

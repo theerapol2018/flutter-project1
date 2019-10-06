@@ -38,7 +38,7 @@ Future<CreateUserLogin> createuserLogine(String url, {Map body}) async {
     loginState = statusCode.toInt();
     print(json.decode(response.body));
     print(".......");
-    loginState = json.decode(response.body);
+    loginState = json.decode(response.body);    //ได้  json กลับมาจาก post
     Iterable list = json.decode(response.body);
     users = list.map((model) => User.fromJson(model)).toList();
     print(users[0].id);  
@@ -48,6 +48,7 @@ Future<CreateUserLogin> createuserLogine(String url, {Map body}) async {
       throw new Exception("Error while fetching data");
       
     }
+    
     // return CreateUserLogin.fromJson(json.decode(response.body));
   });
 }

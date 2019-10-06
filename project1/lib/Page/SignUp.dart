@@ -82,6 +82,7 @@ class _SignUpState extends State<SignUp> {
                                                           idstudent: idStudentControler.text, phone: phoneControler.text, username: usernameControler.text, password: digest.toString(),
                                                           email: emailControler.text, /*subjects : createSubjects*/);
                                 CreateUser p = await createUsers(postUserURL,body: newCreateUser.toMap());
+                                
                               },
                               child: Center(
                                 child: Text("SIGN UP",

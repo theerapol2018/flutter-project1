@@ -5,14 +5,17 @@ import 'Page/Login.dart';
 import 'Page/SplashScreen.dart';
 import 'Page/Subject.dart';
 import 'Page/SubjectInFor.dart';
+import 'data/Subjects.dart';
 import 'data/User.dart';
 
 var url = ("https://jsonflutter.herokuapp.com/");
-var url2 =("http://c79e6bb3.ap.ngrok.io/");
+var url2 =("http://fe60b4be.ap.ngrok.io/");
 var postUserURL = url2 +'Student/new';
 var urlLogin = url2 + "Student/login";
 var joinClassURL = url2 + 'Subject/join';
+var dateCheck = url2+'Attendance/CheckQR';
 var loginState;
+var scanState;
 
 String signup = "signup";
 String forgetpw = "forgetpw";
@@ -27,7 +30,7 @@ String xUser;
   List usersdata;
   List data;
 String headerUser;
-
+var subjectName = new List<Subjects>();
 void main()  {
  
   runApp(MyApp());

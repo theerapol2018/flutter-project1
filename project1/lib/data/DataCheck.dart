@@ -2,36 +2,38 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
+import '../main.dart';
 
-class JoinClass{
+
+class DataCheck{
   // final int id;
-  String codeJoinClass;
-  String idstudent;
+  String dataCheck;
+ 
 
-  JoinClass({
+  DataCheck({
     // this.id,
-    this.codeJoinClass,
-    this.idstudent
+    this.dataCheck,
+    
   });
 
-  factory JoinClass.fromJson(Map<String, dynamic> json){
-    return JoinClass(
+  factory DataCheck.fromJson(Map<String, dynamic> json){
+    return DataCheck(
       // id : json['id'],
-      codeJoinClass: json['Jpassword'],
-      idstudent: json['JSID']
+      dataCheck: json['dataCheck'],
+      
     );
   }
 
   Map toMap(){
     var map = new Map<String, dynamic>();
-    map['Jpassword'] = codeJoinClass;
-    map['JSID'] = idstudent;
+    map['dataChueck'] = dataCheck;
+    
     return map;
   }
 
 }
 
-Future<JoinClass> joinClasss(String url, {Map body}) async {
+Future<DataCheck> send(String url, {Map body}) async {
   print(body);
   return http.post(url, body: json.encode(body))
   .then((http.Response response) {
@@ -41,7 +43,8 @@ Future<JoinClass> joinClasss(String url, {Map body}) async {
       throw new Exception("Error while fetching data");
     }
      print(json.decode(response.body));
-     
+    
+    // scanState = json.decode(response.body);
     // return JoinClass.fromJson(json.decode(response.body));
   });
 }
