@@ -25,7 +25,7 @@ class Selfie{
 
   factory Selfie.fromJson(Map<String, dynamic> json){
     return Selfie(
-      studentId : json['Csid'],
+      studentId : json['StudentID'],
       imageSelfie: json['ImageSelfie'],
       dataCheck: json['AQRcode'],
       firstName: json['SfirstName'],
@@ -35,11 +35,11 @@ class Selfie{
 
   Map toMap(){
     var map = new Map<String, dynamic>();
-    map['Csid'] = studentId;
+    map['StudentID'] = studentId;
     map['ImageSelfie'] = imageSelfie;
     map['AQRcode'] = dataCheck;
     map['SfirstName'] = firstName;
-    map['SlasttName'] = lastName;
+    map['SlastName'] = lastName;
     return map;
   }
 
@@ -59,6 +59,7 @@ Future<Selfie> selfieQR(String url, {Map body}) async {
     }
      print("response: >>> \\|/");
      print(json.decode(response.body));
+     print("____________________________________________________________");
      selfieState = json.decode(response.body);
     // return JoinClass.fromJson(json.decode(response.body));
   });

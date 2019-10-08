@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:crypto/crypto.dart';
@@ -8,13 +7,14 @@ import 'package:project1/data/CreateUserLogin.dart';
 import 'package:flutter/services.dart';
 import 'package:project1/data/Subjects.dart';
 import 'package:project1/data/User.dart';
-import 'package:project1/meterial/MyDialog.dart';
+// import 'package:project1/meterial/MyDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../main.dart';
 import 'HomeClass.dart';
 
-
+String logintextstatusloading = "Loginning...";
+String logintextstatusNOpass = "Username ro Password worng";
 
 TextEditingController _usernameController = TextEditingController();
 TextEditingController _passwordController = TextEditingController();
@@ -26,14 +26,20 @@ class Login extends StatefulWidget{
 }
 
 class LoginState extends State<Login>{
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();  //loading
+  String ptest;
 
   loginTo() async {
 
     var bytes  = utf8.encode(_passwordController.text);
-    var digest = sha256.convert(bytes);        
-    CreateUserLogin newCreateLogin = new CreateUserLogin(/*id: 0,*/ username: _usernameController.text, password: digest.toString());
-    CreateUserLogin c = await createuserLogine(urlLogin,body: newCreateLogin.toMap());
+    var digest = sha256.convert(bytes);      
+    ptest = digest.toString();  
+    if(_usernameController.text!=null && digest.toString() != null){
+      CreateUserLogin newCreateLogin = new CreateUserLogin(/*id: 0,*/ username: _usernameController.text, password: digest.toString());
+      CreateUserLogin c = await createuserLogine(urlLogin,body: newCreateLogin.toMap());
+    }
 
+            
     if(loginState != null ){
             // Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0])),);
             SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,33 +53,48 @@ class LoginState extends State<Login>{
 
             API.getSubject(users[0].idstudent).then((response) {   
               Iterable list = json.decode(response.body);
+              print(json.decode(response.body));
+              print(subjectName[0].sName);
               subjectName = list.map((model) => Subjects.fromJson(model)).toList();
+              
+              
             });
-            
             Future.delayed(const Duration(milliseconds: 300), () {
-            
-
               setState(() {
                 Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0])),);
               });
-
-            });
-
-
-      });
-            
-
-    }  
+            });      });
+    }else{
+      
+      
+    } 
+  } 
+  void loading(String status){
+    _scaffoldKey.currentState.showSnackBar(
+      new SnackBar(duration: new Duration(seconds: 3), content:
+      new Row(
+        children: <Widget>[
+          new CircularProgressIndicator(),
+          new Text(status)
+        ],
+      ),
+    ));
+  } 
+  void wrongbar(String status){
+    _scaffoldKey.currentState.showSnackBar(
+      new SnackBar(duration: new Duration(seconds: 1), content:
+      new Row(
+        children: <Widget>[
+          new Icon(Icons.close),
+          new Text(status,
+            style: TextStyle(
+                            color: Colors.red,)
+          )
+        ],
+      ),
+    ));
   }
-  // DialogState _dialogState = DialogState.DISMISSED;
-  // void _exportData() {
-  //   setState(() => _dialogState = DialogState.LOADING);
-  //   Future.delayed(Duration(seconds: 5)).then((_) {
-  //     setState(() => _dialogState = DialogState.COMPLETED);
-  //     Timer(Duration(seconds: 3), () => setState(() => _dialogState = DialogState.DISMISSED));
-  //   });
-  // }
-  
+
 
   @override 
   Widget build(BuildContext context){
@@ -86,7 +107,7 @@ class LoginState extends State<Login>{
       ]);
 
     return new Scaffold(
-      
+      key: _scaffoldKey,                                                    //loading
       backgroundColor: Colors.amber[numColor] ,
       // resizeToAvoidBottomPadding: false ,
       body: Center( 
@@ -122,13 +143,10 @@ class LoginState extends State<Login>{
                         
                         SizedBox(height: ScreenUtil.getInstance().setHeight(50),),
                         FormLogin(),
-                        // MyDialog(                          //test
-                        //   state: _dialogState,
-                        // ),
                         SizedBox(height: ScreenUtil.getInstance().setHeight(40),),
                         InkWell(
                           child: Container(
-                           // margin: const EdgeInsets.fromLTRB(0.0, 0.0, .0, 0.0),
+                          
                             width: ScreenUtil.getInstance().setWidth(200),
                             height: ScreenUtil.getInstance().setHeight(100),
                             decoration: BoxDecoration(
@@ -150,8 +168,25 @@ class LoginState extends State<Login>{
                                 // onTap: () { getData(); },
                                 onTap: (){ 
                                   loginTo();
-                                  
-                                  // _exportData();               //test
+                                  //  String f = loginState.toString();
+                                   print(loginState);
+                                  print('*****************************');
+                                  if(loginState != 'Worng' && loginState != null  )
+                                  { if(_usernameController.text == users[0].username && ptest == users[0].password){
+                                      loading(logintextstatusloading ); 
+                                    }else{
+                                      wrongbar(logintextstatusNOpass);
+                                    }wrongbar(logintextstatusNOpass);
+                                  } 
+                                  else if(loginState=='Wrong' || loginState == null)
+                                   { loading(logintextstatusloading);
+                                     wrongbar(logintextstatusNOpass); }
+                                  else if(_usernameController.text == users[0].username && ptest == users[0].password){
+                                   loading(logintextstatusloading );
+                                   }
+                                  else { 
+                                    wrongbar(logintextstatusNOpass);
+                                  }   
                                 },
                                 child: Center(
                                   child: Text("SIGNIN",
@@ -213,18 +248,28 @@ class FormLogin extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("Login",
-                    style: TextStyle(
-                        fontSize: ScreenUtil.getInstance().setSp(45),
-                        fontFamily: "Poppins-Bold",
-                        letterSpacing: .6)),
+                Row(
+                  children: <Widget>[
+                    Text("Login",
+                        style: TextStyle(
+                            fontSize: ScreenUtil.getInstance().setSp(45),
+                            fontFamily: "Poppins-Bold",
+                            letterSpacing: .6)),
+                    Icon(Icons.vpn_lock)
+                  ],
+                ),
                 SizedBox(height: ScreenUtil.getInstance().setHeight(30),),
                 //Username
                 
-                Text("Username",
-                    style: TextStyle(
-                        fontFamily: "Poppins-Medium",
-                        fontSize: ScreenUtil.getInstance().setSp(26))),
+                Row(
+                  children: <Widget>[
+                    Icon(Icons.person),
+                    Text("| Username",
+                        style: TextStyle(
+                            fontFamily: "Poppins-Medium",
+                            fontSize: ScreenUtil.getInstance().setSp(26))),
+                  ],
+                ),
                 TextFormField(
                   
                   // autofocus: true,
@@ -249,10 +294,15 @@ class FormLogin extends StatelessWidget {
                 ),
                 SizedBox(height: ScreenUtil.getInstance().setHeight(30),),
                 //Password
-                Text("Password",
-                    style: TextStyle(
-                        fontFamily: "Poppins-Medium",
-                        fontSize: ScreenUtil.getInstance().setSp(26))),
+                Row(
+                  children: <Widget>[
+                    Icon(Icons.vpn_key),
+                    Text("| Password",
+                        style: TextStyle(
+                            fontFamily: "Poppins-Medium",
+                            fontSize: ScreenUtil.getInstance().setSp(26))),
+                  ],
+                ),
                 TextField(
                   obscureText: true,
                 

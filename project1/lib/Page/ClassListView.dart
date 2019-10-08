@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:project1/Page/Subject.dart';
@@ -6,11 +7,15 @@ import '../main.dart';
 
 class ClassListView {
 
+
+
   
-  Card getStructuredGridCell(name,image,BuildContext context,User user){
+  
+  Card getStructuredGridCell(name,image,BuildContext context,User user,int x){
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     
     return Card( 
+      
       elevation: 5.0,
       shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
       color: Colors.limeAccent,
@@ -18,15 +23,25 @@ class ClassListView {
         onTap: () {
           print("tapped");
           // Navigator.of(context).pushNamed("/" + subject);
-          Navigator.push(context,MaterialPageRoute(builder: (context) => Subject(user: user,)));
+          Navigator.push(context,MaterialPageRoute(builder: (context) => Subject(user: user,xx: x,)));
         },
         child: Column(
           children: <Widget>[
-            Text(name),
-            FlutterLogo(),
+            Padding(
+              padding: const EdgeInsets.only(top: 80.0),
+              child: Text(name,
+                      style: TextStyle(
+                        fontFamily: "Poppins-Bold",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,),
+                )
+            ),
+            // Text(x.toString()),
+            // FlutterLogo(),
           ],
         ),
         ),
+         
     );   
   }
 
@@ -44,13 +59,12 @@ class ClassListView {
       
       children: <Widget>[
            for (int i = 0; i < subjectName.length; i++) 
-        getStructuredGridCell(subjectName[i].sName, "",context,user)
+        getStructuredGridCell(subjectName[i].sName, "",context,user,subjectName[i].tspassword)
       ],
     );
   }
 
  
-  
  
 }
 

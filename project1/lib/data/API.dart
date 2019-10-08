@@ -11,9 +11,12 @@ class API {
     var urlUsername = (url2 + 'Student/info/'+ xUser);
     return http.get(urlUsername);
   }
-static Future getSubject(String studentID){
-  return http.get(url2 +'Student/subject/'+studentID);
-}
+  static Future getSubject(String studentID){
+    return http.get(url2 +'Student/subject/'+studentID);
+  }
+  static Future getAttendance(String studentID,String pass){
+    return http.get(url2+'Student/Attendance/'+ studentID +'/'+ pass);
+  }
 
  }
 

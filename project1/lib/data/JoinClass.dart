@@ -7,25 +7,33 @@ class JoinClass{
   // final int id;
   String codeJoinClass;
   String idstudent;
+  String firstname;
+  String lastname;
 
   JoinClass({
     // this.id,
     this.codeJoinClass,
-    this.idstudent
+    this.idstudent,
+    this.firstname,
+    this.lastname
   });
 
   factory JoinClass.fromJson(Map<String, dynamic> json){
     return JoinClass(
       // id : json['id'],
-      codeJoinClass: json['Jpassword'],
-      idstudent: json['JSID']
+      codeJoinClass: json['Password'],
+      idstudent: json['StudentID'],
+      firstname: json['SfirstName'],
+      lastname: json['SlastName']
     );
   }
 
   Map toMap(){
     var map = new Map<String, dynamic>();
-    map['Jpassword'] = codeJoinClass;
-    map['JSID'] = idstudent;
+    map['Password'] = codeJoinClass;
+    map['StudentID'] = idstudent;
+    map['SfirstName'] = firstname;
+    map['SlastName'] = lastname;
     return map;
   }
 

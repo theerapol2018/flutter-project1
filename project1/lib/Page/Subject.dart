@@ -1,21 +1,31 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:project1/data/API.dart';
+import 'package:project1/data/Attendance.dart';
 import 'package:project1/data/DataCheck.dart';
+import 'package:project1/data/Selfie.dart';
 import 'package:project1/data/User.dart';
 import 'package:project1/main.dart';
-import 'Camera.dart';
+
 import 'SubjectInFor.dart';
+// import 'SubjectInFor.dart';
 
 
 List<CameraDescription> cameras;
-// User user2;
+File file;
 
 class Subject extends StatefulWidget{
    static const String routeName = "/subject";
   final User user ;
-  Subject({Key key, @required this.user, }) : super(key: key);
+  final int xx;
+  Subject({Key key, @required this.user,this.xx }) : super(key: key);
   
   @override
   _SubjectState createState() => _SubjectState();
@@ -36,10 +46,10 @@ class _SubjectState extends State<Subject> {
     return Scaffold( 
       appBar: AppBar( 
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.amber,
         iconTheme: new IconThemeData(color: Colors.black),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.amber,
       body: Center( 
 
         child: Container(
@@ -49,8 +59,11 @@ class _SubjectState extends State<Subject> {
               GestureDetector(
                   onTap: () {
                     print("Card 1");
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => SubjectInFor()));
-                    // Navigator.of(context).pushNamed("/" + camera);                    
+                    // getAttendance();
+                    print(atten.nameStudent);
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => SubjectInFor(attendance: atten)));
+                    // Navigator.of(context).pushNamed("/" + camera);         
+                    // Navigator.of(context).pushNamed("/"+ subjectInFor);           
                   },
                   child: Card(                    
                     elevation: 5.0,
@@ -58,7 +71,18 @@ class _SubjectState extends State<Subject> {
                       width: 250,
                       height: 200,
                       child: Column(  
-                        children: <Widget>[ ],
+                        children: <Widget>[ 
+                          Padding(
+                            padding: const EdgeInsets.only(top: 70),
+                            child: Text("AttendanceTable",
+                              style: TextStyle(
+                                fontFamily: "Poppins-Bold",
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              )
+                             ),
+                          )
+                        ],
                       ),
                     ),
 
@@ -80,8 +104,17 @@ class _SubjectState extends State<Subject> {
                       height: 200,
                       child: Column(  
                         children: <Widget>[ 
-                          Text("scan>> "+widget.user.idstudent.toString()),
-                          Text(_value),
+                          Padding(
+                            padding: const EdgeInsets.all(60.0),
+                            child: Text("scan ",
+                              style: TextStyle(
+                                fontFamily: "Poppins-Bold",
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                              )
+                             ),
+                          )
+                          // Text(_value),
                         ],
                       ),
                     ),
@@ -93,7 +126,11 @@ class _SubjectState extends State<Subject> {
       )
     );
   }
-
+@override
+  void initState() {
+    super.initState();
+  getAttendance();
+  }
   String _counter,_value = "";
   String x ="AAAAAAAA";
 
@@ -106,32 +143,66 @@ class _SubjectState extends State<Subject> {
       DataCheck news = await send(dateCheck,body: newSend.toMap());  
       print(scanState);
       if(scanState == "Success"){
-      openCamera();
+        _choose();
       }
-    }
-    
-    
-     
-      // if(_value != "-1"){
-      //   openCamera();
-      // }
-      
+    } 
   }
-          
-    openCamera() async {
-      final cameras = await availableCameras();
-      // final  firstCamera = cameras.first;
-      // final  frontCamera = cameras[1];
-        Navigator.push(context,MaterialPageRoute(builder: (context) => TakePictureScreen(camera: cameras,user: widget.user,qr: _value,)),);
-    }
-   
-   checkOpen() async{
-     print(scanState);
-      if(scanState == 200){
-        openCamera();
-      }
+
+   void _choose() async {
+  //  file = await ImagePicker.pickImage(source: ImageSource.camera);
+      file = await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 25);
+        _upload();
    }
+
+  getAttendance() async {
+    API.getAttendance(widget.user.idstudent,widget.xx.toString()).then((response) {   
+      print(response.body);
+      print("----------------------------------------------------");
+       print("----------------------------------------------------");
+      print(json.decode(response.body));
+        // Iterable<dynamic> list = json.decode(response.body);
+        // Iterable<dynamic> list = json.decode(response.body);
+        // Iterable<AuthenStudents> list = json.decode(response.body);
+        //  attendance = list.map((model) => Attendance.fromJson(model)).toList();
+        Map list = json.decode(response.body);
+        atten = new Attendance.fromJson(list);
+        print("        /////////////////////  ");
+        print(atten.authenStudent[0].data);
+        print(atten.authenStudent[0].stateAuthen);
+        //  print(list); 
+        final int statusCode = response.statusCode;
+        if (statusCode < 200 || statusCode > 400 || json == null) {
+          throw new Exception("Error while fetching data");
+        }
+      });
+  }
       
+    
+
+      
+
+
+
+  Future<void> _upload() async {
+   if (file == null) return;
+  //  testCompressAndGetFile(file, targetPath)
+   String base64Image = base64Encode(file.readAsBytesSync());
+    print("<<<<<<<<<<<<|||>>>>>>>>>");
+    print(base64Image);
+   Selfie newSend = new Selfie(studentId: widget.user.idstudent,imageSelfie: base64Image,dataCheck: _value,firstName: widget.user.firstname,lastName: widget.user.lastname);
+   Selfie news = await selfieQR(selfieqr,body: newSend.toMap());
+ }
+      
+  Future<File> testCompressAndGetFile(File file, String targetPath) async {
+    var result = await FlutterImageCompress.compressAndGetFile(
+        file.absolute.path, targetPath,
+        quality: 88,
+        rotate: 180,
+      );
+    print(file.lengthSync());
+    print(result.lengthSync());
+    return result;
+  }
          
       
   

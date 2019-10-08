@@ -2,6 +2,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
+import '../main.dart';
+
 
 class CreateUser {
   // final int id;
@@ -71,51 +73,9 @@ Future<CreateUser> createUsers(String url, {Map body}) async {
     if (statusCode < 200 || statusCode > 400 || json == null) {
       throw new Exception("Error while fetching data");
     }
+    sigupState = json.decode(response.body);
     print(json.decode(response.body));
     print(" ");
        //ลองเปลี่ยนดู
   });
 }
-
-// class CreateSubjects{
-// //  final String subjectid;
-// //  final String sId;
-// //  final String sName;
-// //  final String sDescription;
-// //  final String sTeacher;
-//  String subjectid;
-//  String sId;
-//  String sName;
-//  String sDescription;
-//  String sTeacher;
-
-// // CreateSubjects({this.subjectid, this.sId, this.sName, this.sDescription, this.sTeacher, });
-// CreateSubjects({String subjectid, String sId, String sName, String sDescription, String sTeacher}){
-//   this.subjectid = null;
-//   this.sId = null;
-//   this.sName = null;
-//   this.sDescription = null;
-//   this.sTeacher = null;
-// }
-
-//  factory CreateSubjects.fromJson(Map<String, dynamic> json){
-//    return CreateSubjects(
-//     subjectid:json['subjectid'],
-//     sId: json['sId'],
-//     sName: json['sName'],
-//     sDescription: json['sDescription'],
-//     sTeacher: json['sTeacher']
-//    );
-//   }
-
-// Map tojson(){
-//   return {
-//       'subjectid': subjectid,
-//       'sId': sId, 
-//       'sName': sName, 
-//       'sDescription': sDescription, 
-//       'sTeacher': sTeacher, 
-//   };
-// }
-
-// }

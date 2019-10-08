@@ -26,13 +26,21 @@ class _SplashScreenState extends State<SplashScreen>  {
   }
 
   void navigationPage() {
-    // Navigator.push(context,MaterialPageRoute(builder: (context) => SubjectInFor()));
-
+    // Navigator.of(context).pushNamed("/"+ subjectInFor);
+    
     if(xUser == null){
       Navigator.of(context).pushNamed("/" + login);
+
     }else{
+      if(stateCheckLogin==false){
+        
+        Navigator.of(context).pushNamed("/" + login);
+      }else{
         Navigator.push(context,MaterialPageRoute(builder: (context) => HomeClass(user: users[0],)),);
+      }
     }
+        
+    
   }
 
   getIndex() async {
@@ -47,6 +55,11 @@ class _SplashScreenState extends State<SplashScreen>  {
       API.getSubject(users[0].idstudent).then((response) {   
         Iterable list = json.decode(response.body);
         subjectName = list.map((model) => Subjects.fromJson(model)).toList();
+        final int statusCode = response.statusCode;
+        if (statusCode < 200 || statusCode > 400 || json == null) {
+          throw new Exception("Error while fetching data");
+          
+        }
       });
     });
      

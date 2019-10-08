@@ -30,90 +30,95 @@ class HomeClass extends StatelessWidget{
   
    
   
-
+    // final EdgeInsets padding = MediaQuery.of(context) as EdgeInsets;
     return Scaffold( 
-      appBar: AppBar(
-        // centerTitle: true,
-        title: Text('HomeClass',
-                    style: TextStyle(  
-                      color: Colors.amber[numColor2]
-                    ),  
-                  ),
-        elevation: 0,
-        backgroundColor: Colors.amber[numColor1],
-        iconTheme: new IconThemeData(color: Colors.grey),
-        actions: <Widget>[
-        IconButton(icon: Icon(Icons.input), 
-                    onPressed: () {
-                      showDialog(
-                     
-                        context: context,
-                        builder: (_) => new AlertDialog(
-                            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
-                            title: new Text("Enter Code "),
-                            content: Container(
-                                height: 180.0, 
-                                child: Column(  
-                                  children: <Widget>[ 
-                                    TextField(
-                                      controller: codeJoinClassControler,
-                                      obscureText: true,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(borderRadius: const BorderRadius.all(Radius.circular(20.0))
-                                                                            , borderSide: BorderSide(color: Colors.amber,),
+      
+
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(80.0),
+        child: Padding(
+          padding: EdgeInsets.only(top: 20.0),
+          child: AppBar(
+          
+          // centerTitle: true,
+          title: Text('HomeClass',
+                      style: TextStyle(  
+                        color: Colors.amber[numColor]
+                      ),  
+                    ),
+          elevation: 0,
+          backgroundColor: Colors.amber[numColor1],
+          iconTheme: new IconThemeData(color: Colors.black),
+          actions: <Widget>[
+          IconButton(icon: Icon(Icons.input), 
+                      onPressed: () {
+                        showDialog(
+                       
+                          context: context,
+                          builder: (_) => new AlertDialog(
+                              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+                              title: new Text("Enter Code "),
+                              content: Container(
+                                  height: 180.0, 
+                                  child: Column(  
+                                    children: <Widget>[ 
+                                      TextField(
+                                        controller: codeJoinClassControler,
+                                        obscureText: true,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(borderRadius: const BorderRadius.all(Radius.circular(20.0))
+                                                                              , borderSide: BorderSide(color: Colors.amber,),
+                                          ),
+                                          focusedBorder:OutlineInputBorder(
+                                                                  borderSide: const BorderSide(color: Colors.teal, width: 2.0),
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                    ),
+                                            hintText: "Code",
+                                            hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
                                         ),
-                                        focusedBorder:OutlineInputBorder(
-                                                                borderSide: const BorderSide(color: Colors.teal, width: 2.0),
-                                                                borderRadius: BorderRadius.circular(20.0),
-                                                  ),
-                                          hintText: "Code",
-                                          hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
-                                      ),
-                                      SizedBox(height: ScreenUtil.getInstance().setHeight(30),),
-                                      RaisedButton( 
-                                        onPressed: () async { 
-                                          
-                                          JoinClass newjoinClass = new JoinClass(codeJoinClass: codeJoinClassControler.text, idstudent: user.idstudent);
-                                          JoinClass joinClass = await joinClasss(joinClassURL,body:newjoinClass.toMap());
-                                          if (joinClass != null){
-                                            print("--------------NULL-------------");
-                                          }
-                                          Navigator.pop(context);
-                                          // print(joinClass);
-                                          // print(joinClass.idstudent);
-                                      
-                                          
-                                        },
-                                        shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
-                                        padding: const EdgeInsets.all(0.0),
-                                        child: Container( 
-                                          decoration: const BoxDecoration(
-                                            gradient: LinearGradient(
-                                              colors: <Color>[
-                                                Colors.lightBlueAccent,
-                                                Colors.tealAccent,
-                                                // Colors.lightGreenAccent,
-                                              ],
+                                        SizedBox(height: ScreenUtil.getInstance().setHeight(30),),
+                                        RaisedButton( 
+                                          onPressed: () async { 
+                                            
+                                            JoinClass newjoinClass = new JoinClass(codeJoinClass: codeJoinClassControler.text, idstudent: user.idstudent,firstname: user.firstname,lastname: user.lastname);
+                                            JoinClass joinClass = await joinClasss(joinClassURL,body:newjoinClass.toMap());
+                                            if (joinClass != null){
+                                              print("--------------NULL-------------");
+                                            }
+                                            Navigator.pop(context);
+                                          },
+                                          shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
+                                          padding: const EdgeInsets.all(0.0),
+                                          child: Container( 
+                                            decoration: const BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: <Color>[
+                                                  Colors.lightBlueAccent,
+                                                  Colors.tealAccent,
+                                                  // Colors.lightGreenAccent,
+                                                ],
+                                              ),
+                                              borderRadius: BorderRadius.all(Radius.circular(20.0)),              
                                             ),
-                                            borderRadius: BorderRadius.all(Radius.circular(20.0)),              
-                                          ),
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: const Text(
-                                            '  Join Class  ',
-                                            style: TextStyle(fontSize: 20,color: Colors.white),    
-                                          ),
-                                          )
-                                      ),
-                                      SizedBox(height: ScreenUtil.getInstance().setHeight(15),),
-                                     // Text("OR"),
-                                  ],
-                                ),
-                              ),                   
-                            )
-                          );
-                        }
-          ),       
-        ],       
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: const Text(
+                                              '  Join Class  ',
+                                              style: TextStyle(fontSize: 20,color: Colors.white),    
+                                            ),
+                                            )
+                                        ),
+                                        SizedBox(height: ScreenUtil.getInstance().setHeight(15),),
+                                       // Text("OR"),
+                                    ],
+                                  ),
+                                ),                   
+                              )
+                            );
+                          }
+            ),       
+          ],       
+        ),
+      ),
       ),
       //Drawer*****
       drawer: Drawer(  
@@ -127,9 +132,11 @@ class HomeClass extends StatelessWidget{
                 child: Container( 
                   
                   child: Padding( 
-                    padding: EdgeInsets.all(30),
+                    padding: EdgeInsets.all(50.0),
                     child: CircleAvatar(
-                      backgroundImage: NetworkImage("https://uppic.cc/d/5kD4"),
+                      backgroundImage: NetworkImage("https://avatars0.githubusercontent.com/u/12619420?s=460&v=4"),
+                      foregroundColor: Colors.black,
+                                radius: 30.0,
                      
                     ),
                     // child: CircleAvatar( 
@@ -168,7 +175,10 @@ class HomeClass extends StatelessWidget{
                   prefs.remove('User');
                   print(prefs.getInt('User'));
                   xUser= null;
-                  Navigator.of(context).pushNamed("/" + login); },
+                  loginState=null;
+                  Navigator.of(context).pushNamed("/" + login);
+                  users[0]=null;
+                   }
               ),
               ListTile( 
                 leading: Icon(Icons.close),

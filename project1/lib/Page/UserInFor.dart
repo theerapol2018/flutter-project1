@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project1/data/User.dart';
+import 'package:project1/meterial/profile_tile.dart';
+
+import '../main.dart';
 
 
 class UserInFor extends StatelessWidget{
@@ -14,16 +17,32 @@ class UserInFor extends StatelessWidget{
         backgroundColor: Colors.white,
         iconTheme: new IconThemeData(color: Colors.black),
       ),
-      body: Padding( 
-        padding: EdgeInsets.all(50.0),
-        child: Column( 
-          children: <Widget>[ 
-            Text("Firstname: "+user.firstname),
-            Text("Lastname: "+user.lastname),
-            Text("StudentID: "+user.idstudent),
-           
-          ],
-        ),
+      backgroundColor: Colors.amber[numColor] ,
+      body: Column(
+        children: <Widget>[
+          Padding( 
+            padding: EdgeInsets.all(50.0),
+            child: Center(
+              child: Column( 
+                children: <Widget>[ 
+                  CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    "https://avatars0.githubusercontent.com/u/12619420?s=460&v=4"),
+                                foregroundColor: Colors.black,
+                                radius: 30.0,
+                              ),
+                  ProfileTile(
+                    title: user.firstname +" " +user.lastname,
+                    subtitle: user.idstudent,
+                  ),
+
+                  
+                 
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

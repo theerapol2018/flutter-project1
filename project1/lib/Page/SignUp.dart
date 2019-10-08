@@ -14,8 +14,8 @@ import '../main.dart';
   TextEditingController emailControler = new TextEditingController();
   TextEditingController usernameControler = new TextEditingController();
   TextEditingController passwordControler = new TextEditingController();
- 
-
+ String logintextstatusSigup = "Sigupping...";
+ String logintextstatusNOpass = "Wrong ro Please fill this out !!!";
 
 
 
@@ -30,15 +30,43 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  
+  void loading(String status){
+    _scaffoldKey.currentState.showSnackBar(
+      new SnackBar(duration: new Duration(seconds: 3), content:
+      new Row(
+        children: <Widget>[
+          new CircularProgressIndicator(),
+          new Text(status)
+        ],
+      ),
+    ));
+  } 
+  void wrongbar(String status){
+    _scaffoldKey.currentState.showSnackBar(
+      new SnackBar(duration: new Duration(seconds: 1), content:
+      new Row(
+        children: <Widget>[
+          new Icon(Icons.close),
+          new Text(status,
+            style: TextStyle(
+             color: Colors.red,)
+          )
+        ],
+      ),
+    ));
+  }
 
   @override 
   Widget build(BuildContext context){
      ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
      ScreenUtil.instance = ScreenUtil(width: 500, height: 800, allowFontScaling: true);
+  
 
 
     return Scaffold(
-
+       key: _scaffoldKey,                                                    //loading
        appBar: AppBar(
         // centerTitle: true ,
         title: Text("Sign Up"),
@@ -78,10 +106,34 @@ class _SignUpState extends State<SignUp> {
                               onTap: () async { 
                                 var bytes  = utf8.encode(passwordControler.text);
                                 var digest = sha256.convert(bytes);
-                                CreateUser newCreateUser = new CreateUser( /*id: 0,*/ firstname: firstNameControler.text, lastname: lastNameControler.text,
-                                                          idstudent: idStudentControler.text, phone: phoneControler.text, username: usernameControler.text, password: digest.toString(),
-                                                          email: emailControler.text, /*subjects : createSubjects*/);
-                                CreateUser p = await createUsers(postUserURL,body: newCreateUser.toMap());
+                                if(firstNameControler.text.toString() != "" && lastNameControler.text != "" && idStudentControler.text != "" && phoneControler.text != ""
+                                    && usernameControler.text != "" && passwordControler.text != ""){
+                                  
+                                  print(firstNameControler.text.toString());
+                                  print(lastNameControler.text);
+                                  print(digest.toString());
+                                  if(sigupState == null ){
+                                    print(sigupState);
+                                   loading(logintextstatusSigup);
+                                    CreateUser newCreateUser = new CreateUser( /*id: 0,*/ firstname: firstNameControler.text, lastname: lastNameControler.text,
+                                                            idstudent: idStudentControler.text, phone: phoneControler.text, username: usernameControler.text, password: digest.toString(),
+                                                            email: emailControler.text, /*subjects : createSubjects*/);
+                                    CreateUser p = await createUsers(postUserURL,body: newCreateUser.toMap());
+                                    sigupState = null;
+                                    Navigator.of(context).pushNamed("/" + login);
+                                  }else{
+                                   wrongbar(logintextstatusNOpass);
+                                  }
+                                }else{
+                                  wrongbar(logintextstatusNOpass);
+                                }
+                                  
+
+                                // if(sigupState == null ){
+                                //   wrongbar(logintextstatusNOpass);
+                                // }else{
+                                //   loading(logintextstatusSigup);
+                                // }
                                 
                               },
                               child: Center(
@@ -190,7 +242,7 @@ class FormSignUp extends StatelessWidget {
                       TextField(
                         controller: phoneControler,
                         decoration: InputDecoration(
-                            hintText: "สาขาวิชา : Computer Engeneering",
+                            hintText: "Ex: 09-XXXX-XXXX",
                             hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
                       ),
                       SizedBox(
@@ -210,10 +262,16 @@ class FormSignUp extends StatelessWidget {
                       SizedBox(
                         height: ScreenUtil.getInstance().setHeight(20),
                       ),
-                      Text("Username",
-                          style: TextStyle(
-                              fontFamily: "Poppins-Medium",
-                              fontSize: ScreenUtil.getInstance().setSp(26))),
+                      
+                      Row(
+                        children: <Widget>[
+                          Icon(Icons.portrait),
+                          Text("| Username",
+                              style: TextStyle(
+                                  fontFamily: "Poppins-Medium",
+                                  fontSize: ScreenUtil.getInstance().setSp(26))),
+                        ],
+                      ),
                       TextField(
                         controller: usernameControler,
                         decoration: InputDecoration(
@@ -223,10 +281,16 @@ class FormSignUp extends StatelessWidget {
                       SizedBox(
                         height: ScreenUtil.getInstance().setHeight(20),
                       ),
-                      Text("New Password",
-                          style: TextStyle(
-                              fontFamily: "Poppins-Medium",
-                              fontSize: ScreenUtil.getInstance().setSp(26))),
+                      Row(
+                        children: <Widget>[
+                          Icon(Icons.vpn_key),
+                          Text("| New Password  ",
+                              style: TextStyle(
+                                  fontFamily: "Poppins-Medium",
+                                  fontSize: ScreenUtil.getInstance().setSp(26))),
+                          
+                        ],
+                      ),
                       TextField(
                         controller: passwordControler,
                         obscureText: true,
