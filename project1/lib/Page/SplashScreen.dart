@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -80,19 +79,19 @@ class _SplashScreenState extends State<SplashScreen>  {
         child:Column( 
           children: <Widget>[ 
             Padding( 
-              padding: EdgeInsets.only(top: 150.0),
+              padding: EdgeInsets.only(top: 180.0),
               child: Column( 
                 children: <Widget>[ 
                   Text("Welcome To SUT Attendance",
                     style:  TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 15.0
+                          fontSize: 30.0
                     ),
                   ),
                   SizedBox(height: ScreenUtil.getInstance().setHeight(50),),
                   SpinKitDualRing(
                     color: Colors.amber,
-                    size: 50.0,
+                    size: 80.0,
                   ),
                 ],
               ),

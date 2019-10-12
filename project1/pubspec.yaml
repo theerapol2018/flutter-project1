@@ -37,7 +37,7 @@ dependencies:
   path:
   image_picker: ^0.6.1+4
   flutter_image_compress: ^0.6.3
-
+  flutter_launcher_icons: ^0.7.3
 
 dev_dependencies:
   flutter_test:

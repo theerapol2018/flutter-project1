@@ -45,8 +45,8 @@ Future<DataCheck> send(String url, {Map body}) async {
       throw new Exception("Error while fetching data");
     }
      print("response: >>> \\|/");
-     print(json.decode(response.body));
-    scanState = json.decode(response.body);
+     print(response.body);
+    scanState = response.body;
     // return JoinClass.fromJson(json.decode(response.body));
   });
 }

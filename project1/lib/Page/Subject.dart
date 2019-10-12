@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -13,9 +12,8 @@ import 'package:project1/data/DataCheck.dart';
 import 'package:project1/data/Selfie.dart';
 import 'package:project1/data/User.dart';
 import 'package:project1/main.dart';
-
 import 'SubjectInFor.dart';
-// import 'SubjectInFor.dart';
+
 
 
 List<CameraDescription> cameras;
@@ -34,12 +32,6 @@ class Subject extends StatefulWidget{
 
 class _SubjectState extends State<Subject> {
  
-
- 
- 
-
-  // final User user ;
-  // _SubjectState({Key key, @required this.user, }) : super(key: key);
 
 @override
   Widget build(BuildContext context){
@@ -114,7 +106,6 @@ class _SubjectState extends State<Subject> {
                               )
                              ),
                           )
-                          // Text(_value),
                         ],
                       ),
                     ),
@@ -129,7 +120,7 @@ class _SubjectState extends State<Subject> {
 @override
   void initState() {
     super.initState();
-  getAttendance();
+    getAttendance();
   }
   String _counter,_value = "";
   String x ="AAAAAAAA";
@@ -141,8 +132,12 @@ class _SubjectState extends State<Subject> {
       
       DataCheck newSend = new DataCheck(dataCheck: _value);
       DataCheck news = await send(dateCheck,body: newSend.toMap());  
+      if (news != null){
+        print("--------------NULL-------------");
+      }
       print(scanState);
-      if(scanState == "Success"){
+      print("_______________");
+      if(scanState != null){
         _choose();
       }
     } 
@@ -154,11 +149,9 @@ class _SubjectState extends State<Subject> {
         _upload();
    }
 
-  getAttendance() async {
+  void getAttendance() async {
     API.getAttendance(widget.user.idstudent,widget.xx.toString()).then((response) {   
       print(response.body);
-      print("----------------------------------------------------");
-       print("----------------------------------------------------");
       print(json.decode(response.body));
         // Iterable<dynamic> list = json.decode(response.body);
         // Iterable<dynamic> list = json.decode(response.body);
@@ -166,10 +159,6 @@ class _SubjectState extends State<Subject> {
         //  attendance = list.map((model) => Attendance.fromJson(model)).toList();
         Map list = json.decode(response.body);
         atten = new Attendance.fromJson(list);
-        print("        /////////////////////  ");
-        print(atten.authenStudent[0].data);
-        print(atten.authenStudent[0].stateAuthen);
-        //  print(list); 
         final int statusCode = response.statusCode;
         if (statusCode < 200 || statusCode > 400 || json == null) {
           throw new Exception("Error while fetching data");
@@ -191,6 +180,9 @@ class _SubjectState extends State<Subject> {
     print(base64Image);
    Selfie newSend = new Selfie(studentId: widget.user.idstudent,imageSelfie: base64Image,dataCheck: _value,firstName: widget.user.firstname,lastName: widget.user.lastname);
    Selfie news = await selfieQR(selfieqr,body: newSend.toMap());
+    if (news != null){
+      print("--------------NULL-------------");
+    }
  }
       
   Future<File> testCompressAndGetFile(File file, String targetPath) async {
