@@ -39,6 +39,7 @@ class _HomeClassState extends State<HomeClass> {
     
   }
 
+
   @override
   void dispose() {
     timer?.cancel();
@@ -80,7 +81,7 @@ class _HomeClassState extends State<HomeClass> {
             backgroundColor: Colors.amber[numColor],
             iconTheme: new IconThemeData(color: Colors.black),
             actions: <Widget>[
-            IconButton(icon: Icon(Icons.input), 
+            IconButton(icon: Icon(Icons.add), 
                         onPressed: () {
                           showDialog(
                          
@@ -208,9 +209,7 @@ class _HomeClassState extends State<HomeClass> {
 
       // Grid Layout
       body: RefreshIndicator(
-        // key: _refreshIndicatorKey,
           onRefresh: getDataSubjectAllTime,
-          // color: Colors.amber,
           backgroundColor: Colors.amber[50],
         child: Padding(
           padding: const EdgeInsets.all(8.0),

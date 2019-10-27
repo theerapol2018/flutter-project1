@@ -19,7 +19,7 @@ class ClassListView {
         onTap: () {
           print("tapped");
           // Navigator.of(context).pushNamed("/" + subject);
-          Navigator.push(context,MaterialPageRoute(builder: (context) => Subject(user: user,xx: tspassword,)));
+          Navigator.push(context,MaterialPageRoute(builder: (context) => Subject(user: user,tspassword: tspassword,)));
         },
         child: Column(
           children: <Widget>[

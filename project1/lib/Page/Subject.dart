@@ -16,14 +16,15 @@ import 'SubjectInFor.dart';
 
 
 
+
 List<CameraDescription> cameras;
 File file;
 
 class Subject extends StatefulWidget{
    static const String routeName = "/subject";
   final User user ;
-  final int xx;
-  Subject({Key key, @required this.user,this.xx }) : super(key: key);
+  final int tspassword;
+  Subject({Key key, @required this.user,this.tspassword }) : super(key: key);
   
   @override
   _SubjectState createState() => _SubjectState();
@@ -51,9 +52,12 @@ class _SubjectState extends State<Subject> {
               GestureDetector(
                   onTap: () {
                     print("Card 1");
+                    // print(widget.user.idstudent);
+                    print(atten.idStudent);
+
                     // getAttendance();
                     print(atten.nameStudent);
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => SubjectInFor(attendance: atten)));
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => SubjectInFor(attendance: atten,idstudent: widget.user.idstudent,tspassword: widget.tspassword,)));
                     // Navigator.of(context).pushNamed("/" + camera);         
                     // Navigator.of(context).pushNamed("/"+ subjectInFor);           
                   },
@@ -130,16 +134,41 @@ class _SubjectState extends State<Subject> {
     setState(() {_value = _counter;});
     if(_value != "-1"){
       
-      DataCheck newSend = new DataCheck(dataCheck: _value);
+      DataCheck newSend = new DataCheck(dataCheck: _value,tspassword: widget.tspassword);
       DataCheck news = await send(dateCheck,body: newSend.toMap());  
       if (news != null){
         print("--------------NULL-------------");
       }
-      print(scanState);
+      print(scanState.toString());
       print("_______________");
-      if(scanState != null){
+      if(scanState.toString().length > 2){
         _choose();
+      }else{
+        showDialog(             
+          context: context,
+          builder: (context) => new AlertDialog(
+              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+              title: new Text("Can't Selfie.",
+                textAlign: TextAlign.center,
+              ),
+              content: Container(
+                  height: 90.0, 
+                  child: Column(  
+                    children: <Widget>[ 
+                      Icon(
+                        Icons.not_interested,
+                        color: Colors.red,
+                        size: 70.0,
+                      
+                      )
+                    ],
+                  ),
+                ),                   
+              )
+            );
       }
+      
+      
     } 
   }
 
@@ -148,21 +177,22 @@ class _SubjectState extends State<Subject> {
       file = await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 25);
         _upload();
    }
-
   void getAttendance() async {
-    API.getAttendance(widget.user.idstudent,widget.xx.toString()).then((response) {   
-      print(response.body);
-      print(json.decode(response.body));
-        // Iterable<dynamic> list = json.decode(response.body);
-        // Iterable<dynamic> list = json.decode(response.body);
-        // Iterable<AuthenStudents> list = json.decode(response.body);
-        //  attendance = list.map((model) => Attendance.fromJson(model)).toList();
-        Map list = json.decode(response.body);
+    
+    API.getAttendance(widget.user.idstudent,widget.tspassword.toString()).then((response) {   
+        print(response.body);
+        var save = response.body;
+        print("------------------------------------------------------------------------");
+        var data =save.split('"');
+        print(save.split('"'));
+
+      
+        Map list = json.decode(data);
         atten = new Attendance.fromJson(list);
         final int statusCode = response.statusCode;
-        if (statusCode < 200 || statusCode > 400 || json == null) {
-          throw new Exception("Error while fetching data");
-        }
+        // if (statusCode < 200 || statusCode > 400 || json == null) {
+        //   throw new Exception("Error while fetching data");
+        // }
       });
   }
       
@@ -182,6 +212,30 @@ class _SubjectState extends State<Subject> {
    Selfie news = await selfieQR(selfieqr,body: newSend.toMap());
     if (news != null){
       print("--------------NULL-------------");
+    }
+    if(selfieState == "Success"){
+      showDialog(             
+          context: context,
+          builder: (context) => new AlertDialog(
+              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+              title: new Text("  Success  ",
+                textAlign: TextAlign.center,
+              ),
+              content: Container(
+                  height: 90.0, 
+                  child: Column(  
+                    children: <Widget>[ 
+                      Icon(
+                        Icons.done_outline,
+                        color: Colors.green,
+                        size: 70.0,
+                      
+                      )
+                    ],
+                  ),
+                ),                   
+              )
+            );
     }
  }
       

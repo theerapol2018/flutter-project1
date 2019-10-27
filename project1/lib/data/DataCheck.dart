@@ -7,11 +7,13 @@ import '../main.dart';
 class DataCheck{
   // final int id;
   String dataCheck;
+  int tspassword;
  
 
   DataCheck({
     // this.id,
     this.dataCheck,
+    this.tspassword
     
   });
 
@@ -19,6 +21,7 @@ class DataCheck{
     return DataCheck(
       // id : json['id'],
       dataCheck: json['AQRcode'],
+      tspassword: json['TSpassword'],
       
     );
   }
@@ -26,6 +29,7 @@ class DataCheck{
   Map toMap(){
     var map = new Map<String, dynamic>();
     map['AQRcode'] = dataCheck;
+    map['TSpassword'] = tspassword;
     
     return map;
   }

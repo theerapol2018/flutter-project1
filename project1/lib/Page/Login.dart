@@ -51,14 +51,15 @@ class LoginState extends State<Login>{
             API.getUsersLogin(users[0].id).then((response) {   
             Iterable list = json.decode(response.body);
             users = list.map((model) => User.fromJson(model)).toList();
-            print(users[0].idstudent);
+            // print(users[0].idstudent);
 
             API.getSubject(users[0].idstudent).then((response) {   
               Iterable list = json.decode(response.body);
+              print(response.body);
               print(json.decode(response.body));
               
               subjectName = list.map((model) => Subjects.fromJson(model)).toList();
-              print(subjectName[0].sName);
+              // print(subjectName[0].sName);
               
             });
             Future.delayed(const Duration(milliseconds: 300), () {

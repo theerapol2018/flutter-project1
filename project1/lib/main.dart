@@ -9,7 +9,7 @@ import 'data/Subjects.dart';
 import 'data/User.dart';
 
 var url = ("https://jsonflutter.herokuapp.com/");
-var url2 =("http://ddffb298.ap.ngrok.io/");
+var url2 =("http://5b1d04d3.ap.ngrok.io/");
 var postUserURL = url2 +'Student/new';
 var urlLogin = url2 + "Student/login";
 var joinClassURL = url2 + 'Subject/join';
